@@ -122,14 +122,56 @@ export const NavBody: React.FC<NavBodyProps> = ({
   );
 };
 
+// Custom smooth scroll function with easing
+const smoothScrollTo = (targetId: string) => {
+  const targetElement = document.getElementById(targetId);
+  if (!targetElement) return;
+
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const duration = Math.min(Math.abs(distance) * 1.2, 4000); // Slower animation, max 4s
+  let startTime: number | null = null;
+
+  // Cubic ease-in-out for smooth animation
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const animateScroll = (currentTime: number) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const easedProgress = easeInOutCubic(progress);
+
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  requestAnimationFrame(animateScroll);
+};
+
 export const NavItems: React.FC<NavItemsProps> = ({ items, className, onItemClick }) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
+    // Check if it's a hash link for the current page
+    if (link.startsWith("/#") || link.startsWith("#")) {
+      e.preventDefault();
+      const targetId = link.replace("/#", "").replace("#", "");
+      smoothScrollTo(targetId);
+      onItemClick?.();
+    }
+  };
+
   return (
     <div className={cn("flex items-center gap-8", className)}>
       {items.map((item, idx) => (
         <Link
           key={idx}
           href={item.link}
-          onClick={onItemClick}
+          onClick={(e) => handleClick(e, item.link)}
           className="group relative text-neutral-300 hover:text-white text-sm font-medium overflow-hidden"
         >
           <span className="relative block overflow-hidden h-[1.2em]">

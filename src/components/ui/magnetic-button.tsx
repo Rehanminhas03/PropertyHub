@@ -14,6 +14,37 @@ interface MagneticButtonProps {
   strength?: number;
 }
 
+// Custom smooth scroll function with easing
+const smoothScrollTo = (targetId: string) => {
+  const targetElement = document.getElementById(targetId);
+  if (!targetElement) return;
+
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const duration = Math.min(Math.abs(distance) * 1.2, 4000); // Slower animation, max 4s
+  let startTime: number | null = null;
+
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const animateScroll = (currentTime: number) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const easedProgress = easeInOutCubic(progress);
+
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (progress < 1) {
+      requestAnimationFrame(animateScroll);
+    }
+  };
+
+  requestAnimationFrame(animateScroll);
+};
+
 // Arrow Icon - diagonal pointing top-right
 const ArrowUpRight = ({ className }: { className?: string }) => (
   <svg
@@ -97,7 +128,24 @@ export default function MagneticButton({
     </motion.div>
   );
 
+  const handleClick = (e: React.MouseEvent) => {
+    if (href && (href.startsWith("#") || href.startsWith("/#"))) {
+      e.preventDefault();
+      const targetId = href.replace("/#", "").replace("#", "");
+      smoothScrollTo(targetId);
+    }
+    onClick?.();
+  };
+
   if (href) {
+    // For hash links, use smooth scroll
+    if (href.startsWith("#") || href.startsWith("/#")) {
+      return (
+        <a href={href} onClick={handleClick} className="inline-block">
+          {buttonContent}
+        </a>
+      );
+    }
     return (
       <Link href={href} className="inline-block">
         {buttonContent}

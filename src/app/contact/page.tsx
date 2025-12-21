@@ -57,20 +57,38 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formState),
+      });
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormState({ name: "", email: "", phone: "", company: "", message: "" });
+      const data = await response.json();
 
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setIsSubmitted(true);
+      setFormState({ name: "", email: "", phone: "", company: "", message: "" });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -118,6 +136,16 @@ export default function ContactPage() {
               <SpotlightCard className="h-full">
                 <h2 className="text-2xl font-bold text-white mb-6">Send us a message</h2>
 
+                {error && (
+                  <motion.div
+                    className="mb-4 p-4 rounded-lg bg-red-500/20 border border-red-500/30"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <p className="text-red-400 text-sm">{error}</p>
+                  </motion.div>
+                )}
+
                 {isSubmitted ? (
                   <motion.div
                     className="flex flex-col items-center justify-center py-12"
@@ -129,7 +157,7 @@ export default function ContactPage() {
                     </div>
                     <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
                     <p className="text-white/60 text-center">
-                      We&apos;ll get back to you within 24 hours.
+                      We&apos;ll get back to you within 24 hours. Check your email for confirmation.
                     </p>
                   </motion.div>
                 ) : (

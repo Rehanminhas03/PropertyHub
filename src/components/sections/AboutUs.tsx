@@ -105,9 +105,17 @@ export default function AboutUs() {
   return (
     <section
       id="about-us"
-      className="relative py-32 px-4 overflow-hidden"
+      className="relative pt-16 pb-32 px-4 overflow-hidden bg-[#161616]"
       ref={ref}
     >
+      {/* Top fade gradient to blend with hero section */}
+      <div
+        className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(to top, transparent 0%, #161616 100%)",
+        }}
+      />
+
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Gold gradient orb - left */}

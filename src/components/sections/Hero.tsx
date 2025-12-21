@@ -3,13 +3,40 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
+import AnimatedRings from "@/components/ui/animated-rings";
+import NetworkAnimation from "@/components/ui/network-animation";
+import CursorTrail from "@/components/ui/cursor-trail";
 import Particles from "@/components/ui/particles";
-import AnimatedBlobs from "@/components/ui/animated-blobs";
+import SplitText, { ShimmerText } from "@/components/ui/split-text";
 import { TypewriterText } from "@/components/ui/text-reveal";
 import MouseSpotlight from "@/components/ui/mouse-spotlight";
-import FloatingIcons from "@/components/ui/floating-icons";
 import MagneticButton from "@/components/ui/magnetic-button";
 import siteConfig from "@/config/site.json";
+import Image from "next/image";
+
+// Brokerage logos for the marquee - using local images
+const brokerageLogos = [
+  {
+    name: "Partner 1",
+    logo: "/logos/1.png",
+  },
+  {
+    name: "Partner 2",
+    logo: "/logos/2.png",
+  },
+  {
+    name: "Partner 3",
+    logo: "/logos/3.png",
+  },
+  {
+    name: "Partner 4",
+    logo: "/logos/4.png",
+  },
+  {
+    name: "Partner 5",
+    logo: "/logos/5.png",
+  },
+];
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,8 +46,7 @@ export default function Hero() {
   });
 
   // Parallax transformations
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const circlesY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
@@ -28,48 +54,93 @@ export default function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-16 px-4 overflow-hidden bg-[#161616]"
+      className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-32 px-4 overflow-hidden bg-[#161616]"
     >
-      {/* Mouse-following spotlight */}
-      <MouseSpotlight size={500} opacity={0.12} />
+      {/* Glassmorphism background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Large glass panel - top left */}
+        <div
+          className="absolute top-[10%] left-[5%] w-[400px] h-[400px] rounded-3xl opacity-20"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)",
+            backdropFilter: "blur(40px)",
+            WebkitBackdropFilter: "blur(40px)",
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        />
+        {/* Medium glass panel - top right */}
+        <div
+          className="absolute top-[20%] right-[10%] w-[300px] h-[300px] rounded-2xl opacity-15"
+          style={{
+            background: "linear-gradient(135deg, rgba(213,179,103,0.08) 0%, rgba(255,255,255,0.02) 100%)",
+            backdropFilter: "blur(30px)",
+            WebkitBackdropFilter: "blur(30px)",
+            border: "1px solid rgba(213,179,103,0.1)",
+          }}
+        />
+        {/* Small glass panel - bottom */}
+        <div
+          className="absolute bottom-[25%] left-[20%] w-[250px] h-[200px] rounded-xl opacity-10"
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 100%)",
+            backdropFilter: "blur(25px)",
+            WebkitBackdropFilter: "blur(25px)",
+            border: "1px solid rgba(255,255,255,0.05)",
+          }}
+        />
+      </div>
 
-      {/* Animated Blob Background - Salient Tether style with parallax */}
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0">
-        <AnimatedBlobs className="pointer-events-none opacity-60" />
+      {/* Bottom fade gradient to blend with next section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-20"
+        style={{
+          background: "linear-gradient(to bottom, transparent 0%, #161616 100%)",
+        }}
+      />
+      {/* Cursor Trail Effect */}
+      <CursorTrail particleCount={12} particleLifetime={600} />
+
+      {/* Mouse-following spotlight */}
+      <MouseSpotlight size={500} opacity={0.1} />
+
+      {/* Network Animation Background */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{ opacity }}
+      >
+        <NetworkAnimation
+          nodeCount={50}
+          connectionDistance={180}
+          nodeColor="rgba(213, 179, 103, 0.6)"
+          lineColor="rgba(213, 179, 103, 0.12)"
+        />
+      </motion.div>
+
+      {/* Animated Rings Background - Like prorealtify.com */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-[2]"
+        style={{ y: backgroundY, opacity }}
+      >
+        <AnimatedRings className="opacity-90" />
       </motion.div>
 
       {/* Particle Background */}
       <Particles
         className="absolute inset-0 pointer-events-none"
-        quantity={60}
+        quantity={50}
         color="#d5b367"
         ease={80}
       />
 
-      {/* Floating Icons */}
-      <FloatingIcons className="opacity-40" />
-
-      {/* Rotating circles with parallax */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: circlesY, opacity }}
-      >
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-[#d5b367]/10"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#d5b367]/10"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#d5b367]/5"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        />
-      </motion.div>
+      {/* Subtle overlay - minimal blur to keep animations visible */}
+      <div
+        className="absolute inset-0 z-[5] pointer-events-none"
+        style={{
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          background: "rgba(22, 22, 22, 0.1)",
+        }}
+      />
 
       {/* Content with parallax */}
       <motion.div
@@ -88,24 +159,18 @@ export default function Hero() {
           </Badge>
         </motion.div>
 
-        {/* Heading with text reveal animation */}
+        {/* Heading with letter-by-letter animation */}
         <h1 className="mt-8 text-5xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-tight">
-          <motion.span
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Marketing.
-          </motion.span>
+          <SplitText text="Marketing." delay={0.3} staggerDelay={0.04} />
           {" "}
-          <motion.span
-            className="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            Perfected.
-          </motion.span>
+          <ShimmerText>
+            <SplitText
+              text="Perfected."
+              delay={0.7}
+              staggerDelay={0.04}
+              letterClassName="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"
+            />
+          </ShimmerText>
         </h1>
 
         {/* Subheading with typewriter effect */}
@@ -151,27 +216,31 @@ export default function Hero() {
 
       {/* Logo Marquee - Outside parallax, stays visible */}
       <motion.div
-        className="relative z-10 w-full mt-12 mb-8"
+        className="relative z-10 w-[80%] mx-auto mt-12 mb-8"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <p className="text-sm text-white/40 text-center mb-6">Trusted by agents at leading brokerages</p>
-        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]">
+        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
           <motion.div
-            className="flex items-center gap-[75px]"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+            className="flex items-center"
+            animate={{ x: [0, -(brokerageLogos.length * (128 + 40))] }}
+            transition={{ duration: 20, ease: "linear", repeat: Infinity }}
           >
-            {/* Company names as styled text - duplicated for seamless loop */}
-            {[...Array(3)].map((_, setIdx) => (
-              <div key={setIdx} className="flex items-center gap-[60px] flex-shrink-0">
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">Zillow</span>
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">Berkshire Hathaway</span>
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">Keller Williams</span>
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">Century 21</span>
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">Realtor.com</span>
-                <span className="text-2xl font-bold text-white/40 tracking-tight whitespace-nowrap">RE/MAX</span>
+            {/* Brokerage logos - duplicated twice for seamless infinite loop */}
+            {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
+              <div
+                key={idx}
+                className="relative h-12 w-32 mx-5 opacity-60 hover:opacity-90 transition-opacity flex-shrink-0 grayscale hover:grayscale-0"
+              >
+                <Image
+                  src={brokerage.logo}
+                  alt={brokerage.name}
+                  fill
+                  className="object-contain brightness-0 invert"
+                  sizes="128px"
+                />
               </div>
             ))}
           </motion.div>

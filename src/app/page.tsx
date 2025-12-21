@@ -12,7 +12,7 @@ import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-[#161616]">
       <ScrollProgress />
       <NavbarDemo />
       <Hero />

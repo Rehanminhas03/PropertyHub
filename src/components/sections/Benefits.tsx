@@ -1,12 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import {
   IconTargetArrow,
-  IconRobot,
   IconChartBar,
   IconUsers,
   IconClock,
@@ -21,21 +20,19 @@ const benefits = [
     title: "Intent-Verified Leads",
     description:
       "Get connected with prospects who are actively looking for your services, not cold contacts.",
-    image: "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&q=80",
-    bgColor: "#161616",
-    accentColor: "#a08a4c",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=90",
+    accentColor: "#d5b367",
     tags: ["Buyer Leads", "Seller Leads", "Investor Leads"],
   },
   {
-    icon: IconRobot,
-    badge: "Automation",
-    title: "AI-Powered Automation",
+    icon: IconShieldCheck,
+    badge: "Quality",
+    title: "Human-Verified Leads",
     description:
-      "Let intelligent systems handle nurturing and follow-ups while you focus on closing deals.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-    bgColor: "#161616",
+      "Every lead is personally verified by our team to ensure you only connect with genuine prospects.",
+    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=90",
     accentColor: "#4a7c59",
-    tags: ["Email Sequences", "SMS Follow-ups", "Smart Routing"],
+    tags: ["Manual Review", "Quality Assured", "Real Prospects"],
   },
   {
     icon: IconChartBar,
@@ -43,8 +40,7 @@ const benefits = [
     title: "Data-Driven Results",
     description:
       "Track every metric that matters with comprehensive analytics and reporting dashboards.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    bgColor: "#161616",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=90",
     accentColor: "#4a6fa5",
     tags: ["ROI Tracking", "Lead Scoring", "Performance"],
   },
@@ -54,8 +50,7 @@ const benefits = [
     title: "Dedicated Support",
     description:
       "Work with a dedicated team that understands your business and helps you succeed.",
-    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80",
-    bgColor: "#161616",
+    image: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=90",
     accentColor: "#8b7355",
     tags: ["Account Manager", "Strategy Calls", "Priority Support"],
   },
@@ -65,8 +60,7 @@ const benefits = [
     title: "Save Time",
     description:
       "Automate repetitive tasks and focus on what matters most - building relationships and closing deals.",
-    image: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=800&q=80",
-    bgColor: "#161616",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=90",
     accentColor: "#6b5b7a",
     tags: ["Task Automation", "Smart Scheduling", "Quick Setup"],
   },
@@ -76,276 +70,203 @@ const benefits = [
     title: "Proven Systems",
     description:
       "Leverage battle-tested marketing strategies that have helped hundreds of agents succeed.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-    bgColor: "#161616",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=90",
     accentColor: "#4a7a7a",
     tags: ["Case Studies", "Testimonials", "Certifications"],
   },
 ];
 
+// Individual card component with scroll-linked animation
+function BenefitCard({
+  benefit,
+  idx,
+  scrollYProgress,
+}: {
+  benefit: (typeof benefits)[0];
+  idx: number;
+  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+}) {
+  const totalCards = benefits.length;
+
+  // Each card animates during the PREVIOUS card's scroll segment
+  const segmentSize = 1 / totalCards;
+  const animationStart = (idx - 1) * segmentSize;
+  const animationEnd = idx * segmentSize;
+
+  // Y position: smooth slide from bottom to top
+  const y = useTransform(
+    scrollYProgress,
+    [animationStart, animationEnd],
+    ["100%", "0%"],
+    { ease: (t) => 1 - Math.pow(1 - t, 3) } // Cubic ease out for smooth animation
+  );
+
+  const yValue = idx === 0 ? "0%" : y;
+
+  return (
+    <motion.div
+      className="absolute inset-0 w-full h-full will-change-transform flex items-center justify-center"
+      style={{
+        y: yValue,
+        zIndex: idx + 1,
+      }}
+    >
+      {/* Card Container - 80% width, 100% height */}
+      <div className="relative w-[80%] h-full flex items-center pt-20 pb-8">
+        {/* Inner Card with rounded corners - full height */}
+        <div
+          className="relative w-full h-full rounded-3xl overflow-hidden flex"
+          style={{
+            boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px ${benefit.accentColor}20`,
+          }}
+        >
+          {/* Left Side - Content */}
+          <div className="w-full lg:w-1/2 h-full bg-[#1a1a1a] p-8 md:p-12 lg:p-14 flex flex-col justify-center relative">
+            {/* Accent gradient background */}
+            <div
+              className="absolute inset-0 opacity-10"
+              style={{
+                background: `radial-gradient(circle at top left, ${benefit.accentColor}40 0%, transparent 50%)`,
+              }}
+            />
+
+            <div className="relative z-10">
+              {/* Category Badge */}
+              <div>
+                <span
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm border"
+                  style={{
+                    backgroundColor: `${benefit.accentColor}20`,
+                    color: benefit.accentColor,
+                    borderColor: `${benefit.accentColor}40`,
+                  }}
+                >
+                  <benefit.icon className="w-4 h-4" />
+                  {benefit.badge}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 className="mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {benefit.title}
+              </h2>
+
+              {/* Description */}
+              <p className="mt-6 text-base md:text-lg text-white/60 leading-relaxed">
+                {benefit.description}
+              </p>
+
+              {/* Tags */}
+              <div className="mt-6 flex flex-wrap gap-2">
+                {benefit.tags.map((tag, tagIdx) => (
+                  <span
+                    key={tagIdx}
+                    className="px-3 py-1.5 rounded-full text-sm text-white/70 border border-white/10"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.05)",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA Button */}
+              <div className="mt-8">
+                <button
+                  className="group flex items-center gap-3 px-6 py-3 rounded-full font-semibold text-base transition-all duration-300 hover:scale-105"
+                  style={{
+                    backgroundColor: benefit.accentColor,
+                    color: "#161616",
+                  }}
+                >
+                  Get Started
+                  <IconArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </div>
+
+            {/* Card Number - Bottom Left */}
+            <div className="absolute bottom-6 left-8 md:left-12 lg:left-14">
+              <span
+                className="text-7xl md:text-8xl font-bold opacity-20"
+                style={{ color: benefit.accentColor }}
+              >
+                0{idx + 1}
+              </span>
+            </div>
+          </div>
+
+          {/* Right Side - Image */}
+          <div className="hidden lg:block w-1/2 h-full relative">
+            <Image
+              src={benefit.image}
+              alt={benefit.title}
+              fill
+              className="object-cover"
+              sizes="50vw"
+              priority={idx <= 1}
+            />
+            {/* Subtle overlay for better blending */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to right, #1a1a1a 0%, transparent 20%), linear-gradient(135deg, ${benefit.accentColor}10 0%, transparent 50%)`,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Benefits() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Calculate active index based on scroll progress
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on("change", (value) => {
-      const index = Math.min(
-        Math.floor(value * benefits.length),
-        benefits.length - 1
-      );
-      setActiveIndex(index);
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
-
-  // Background color based on active section
-  const backgroundColor = useTransform(
+  // Badge animation - stays visible and pulses subtly
+  const badgeScale = useTransform(
     scrollYProgress,
-    benefits.map((_, i) => i / benefits.length),
-    benefits.map((b) => b.bgColor)
+    [0, 0.1, 0.9, 1],
+    [1, 1.05, 1.05, 1]
   );
-
-  const activeBenefit = benefits[activeIndex];
 
   return (
     <section
       id="benefits"
       ref={containerRef}
-      className="relative"
+      className="relative bg-[#161616]"
       style={{ height: `${benefits.length * 100}vh` }}
     >
-      {/* Animated Background */}
-      <motion.div
-        className="fixed inset-0 -z-10 transition-colors duration-700"
-        style={{ backgroundColor }}
-      />
-
       {/* Sticky Container */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-                               linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-              backgroundSize: "60px 60px",
-            }}
-          />
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 w-full items-center">
-            {/* Left Side - Text Content (Changes with scroll) */}
-            <div className="space-y-6 lg:pr-8">
-              {/* Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Badge>Why Choose Us</Badge>
-              </motion.div>
-
-              {/* Animated Content */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="space-y-6"
-                >
-                  {/* Category Badge */}
-                  <span
-                    className="inline-block px-4 py-1.5 rounded-full text-sm font-medium"
-                    style={{
-                      backgroundColor: `${activeBenefit.accentColor}20`,
-                      color: activeBenefit.accentColor,
-                    }}
-                  >
-                    {activeBenefit.badge}
-                  </span>
-
-                  {/* Title */}
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                    {activeBenefit.title}
-                  </h2>
-
-                  {/* Description */}
-                  <p className="text-lg md:text-xl text-white/60 leading-relaxed max-w-lg">
-                    {activeBenefit.description}
-                  </p>
-
-                  {/* CTA Button */}
-                  <motion.button
-                    className="group flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-300 overflow-hidden"
-                    style={{
-                      backgroundColor: activeBenefit.accentColor,
-                      color: "#161616",
-                    }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="relative block overflow-hidden h-[1.2em]">
-                      <span className="flex items-center gap-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                        Get Started
-                        <IconArrowRight className="w-4 h-4" />
-                      </span>
-                      <span className="absolute left-0 top-0 flex items-center gap-2 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0">
-                        Get Started
-                        <IconArrowRight className="w-4 h-4" />
-                      </span>
-                    </span>
-                  </motion.button>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Progress Indicators */}
-              <div className="flex gap-2 pt-8">
-                {benefits.map((benefit, idx) => (
-                  <button
-                    key={idx}
-                    className="group relative"
-                    onClick={() => {
-                      const element = containerRef.current;
-                      if (element) {
-                        const scrollTo = (idx / benefits.length) * element.scrollHeight;
-                        window.scrollTo({ top: scrollTo, behavior: "smooth" });
-                      }
-                    }}
-                  >
-                    <div
-                      className={`h-1 rounded-full transition-all duration-500 ${
-                        idx === activeIndex ? "w-8" : "w-3"
-                      }`}
-                      style={{
-                        backgroundColor:
-                          idx === activeIndex
-                            ? benefit.accentColor
-                            : "rgba(255,255,255,0.2)",
-                      }}
-                    />
-                    {/* Tooltip */}
-                    <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 rounded text-xs text-white/60 bg-white/10 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                      {benefit.badge}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Side - Image/Card (Changes with scroll) */}
-            <div className="relative h-[500px] lg:h-[600px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, scale: 0.95, y: 80 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: -80 }}
-                  transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-                  className="absolute inset-0"
-                >
-                  {/* Main Image Container */}
-                  <div className="relative h-full rounded-3xl overflow-hidden">
-                    {/* Background Image */}
-                    <Image
-                      src={activeBenefit.image}
-                      alt={activeBenefit.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      priority
-                    />
-
-                    {/* Gradient Overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                    <div
-                      className="absolute inset-0 opacity-40"
-                      style={{
-                        background: `linear-gradient(135deg, ${activeBenefit.accentColor}30 0%, transparent 60%)`,
-                      }}
-                    />
-
-                    {/* Top Badge */}
-                    <motion.div
-                      className="absolute top-4 right-4 px-4 py-2 rounded-full backdrop-blur-md border border-white/20"
-                      style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <activeBenefit.icon
-                          className="w-4 h-4"
-                          style={{ color: activeBenefit.accentColor }}
-                        />
-                        <span className="text-white text-sm font-medium">
-                          {activeBenefit.badge}
-                        </span>
-                      </div>
-                    </motion.div>
-
-                    {/* Bottom Tags Card */}
-                    <motion.div
-                      className="absolute bottom-4 left-4 right-4 p-5 rounded-2xl backdrop-blur-xl border border-white/10"
-                      style={{ backgroundColor: "rgba(22,22,22,0.8)" }}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
-                    >
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2">
-                        {activeBenefit.tags.map((tag, tagIdx) => (
-                          <span
-                            key={tagIdx}
-                            className="px-3 py-1 rounded-full text-xs text-white/70 border border-white/10"
-                            style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Decorative Blur */}
-                  <div
-                    className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl opacity-30 pointer-events-none"
-                    style={{ backgroundColor: activeBenefit.accentColor }}
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
+        {/* Badge at top - outside card stack, with animation */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          animate={{ opacity: activeIndex < benefits.length - 1 ? 1 : 0 }}
+          className="absolute top-8 left-1/2 -translate-x-1/2 z-50"
+          style={{ scale: badgeScale }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <span className="text-white/40 text-xs">Scroll to explore</span>
-          <motion.div
-            className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2"
-            animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-white/40"
-              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </motion.div>
+          <Badge>Why Choose Us</Badge>
         </motion.div>
+
+        {/* Full-width card stack */}
+        <div className="relative h-full w-full">
+          {benefits.map((benefit, idx) => (
+            <BenefitCard
+              key={idx}
+              benefit={benefit}
+              idx={idx}
+              scrollYProgress={scrollYProgress}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
