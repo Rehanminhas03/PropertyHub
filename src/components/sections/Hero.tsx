@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import AnimatedRings from "@/components/ui/animated-rings";
 import NetworkAnimation from "@/components/ui/network-animation";
+import DottedBackground from "@/components/ui/dotted-background";
 import CursorTrail from "@/components/ui/cursor-trail";
 import Particles from "@/components/ui/particles";
 import SplitText, { ShimmerText } from "@/components/ui/split-text";
@@ -111,8 +112,8 @@ export default function Hero() {
         <NetworkAnimation
           nodeCount={50}
           connectionDistance={180}
-          nodeColor="rgba(213, 179, 103, 0.6)"
-          lineColor="rgba(213, 179, 103, 0.12)"
+          nodeColor="rgba(180, 145, 70, 0.6)"
+          lineColor="rgba(180, 145, 70, 0.12)"
         />
       </motion.div>
 
@@ -128,7 +129,7 @@ export default function Hero() {
       <Particles
         className="absolute inset-0 pointer-events-none"
         quantity={50}
-        color="#d5b367"
+        color="#b49146"
         ease={80}
       />
 
@@ -142,6 +143,21 @@ export default function Hero() {
         }}
       />
 
+      {/* Dotted Background Animation - ABOVE blur overlay like prorealtify.com */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-[8]"
+        style={{ opacity }}
+      >
+        <DottedBackground
+          dotCount={30}
+          dotColor="rgba(180, 145, 70, 1)"
+          glowColor="rgba(180, 145, 70, 0.4)"
+          maxDotSize={1.2}
+          minDotSize={0.4}
+          speed={0.9}
+        />
+      </motion.div>
+
       {/* Content with parallax */}
       <motion.div
         className="relative z-10 flex flex-col items-center max-w-4xl mx-auto text-center"
@@ -154,7 +170,7 @@ export default function Hero() {
           transition={{ duration: 0.5 }}
         >
           <Badge>
-            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#d5b367] to-[#e8d5a3] mr-2" />
+            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#b49146] to-[#e8d5a3] mr-2" />
             {siteConfig.name} - {siteConfig.tagline}
           </Badge>
         </motion.div>
@@ -168,7 +184,7 @@ export default function Hero() {
               text="Perfected."
               delay={0.7}
               staggerDelay={0.04}
-              letterClassName="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"
+              letterClassName="bg-gradient-to-r from-[#e8d5a3] via-[#fff8e7] to-[#e8d5a3] bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"
             />
           </ShimmerText>
         </h1>

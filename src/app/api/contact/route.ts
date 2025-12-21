@@ -125,8 +125,19 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error sending email:", error);
+
+    // Check if it's a configuration issue
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      return NextResponse.json(
+        { error: "Email service not configured. Please contact support." },
+        { status: 500 }
+      );
+    }
+
+    // Return more specific error for debugging
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Failed to send email" },
+      { error: `Failed to send email: ${errorMessage}` },
       { status: 500 }
     );
   }

@@ -24,8 +24,8 @@ export default function NetworkAnimation({
   className = "",
   nodeCount = 40,
   connectionDistance = 150,
-  nodeColor = "rgba(213, 179, 103, 0.8)",
-  lineColor = "rgba(213, 179, 103, 0.15)",
+  nodeColor = "rgba(180, 145, 70, 0.8)",
+  lineColor = "rgba(180, 145, 70, 0.15)",
 }: NetworkAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -120,7 +120,7 @@ export default function NetworkAnimation({
           node.y,
           node.size * 3
         );
-        gradient.addColorStop(0, "rgba(213, 179, 103, 0.3)");
+        gradient.addColorStop(0, "rgba(180, 145, 70, 0.3)");
         gradient.addColorStop(1, "transparent");
         ctx.fillStyle = gradient;
         ctx.fill();

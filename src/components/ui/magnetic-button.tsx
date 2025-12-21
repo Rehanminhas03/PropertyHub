@@ -94,7 +94,7 @@ export default function MagneticButton({
 
   const variants = {
     primary:
-      "bg-[#d5b367] text-[#161616] hover:bg-[#c9a555] shadow-[0_0.7px_0.7px_-0.625px_rgba(0,0,0,0.15),0_1.8px_1.8px_-1.25px_rgba(0,0,0,0.14),0_3.6px_3.6px_-1.875px_rgba(0,0,0,0.14),0_6.9px_6.9px_-2.5px_rgba(0,0,0,0.13),0_13.6px_13.6px_-3.125px_rgba(0,0,0,0.1),0_30px_30px_-3.75px_rgba(0,0,0,0.05)]",
+      "bg-[#b49146] text-[#161616] hover:bg-[#c9a555] shadow-[0_0.7px_0.7px_-0.625px_rgba(0,0,0,0.15),0_1.8px_1.8px_-1.25px_rgba(0,0,0,0.14),0_3.6px_3.6px_-1.875px_rgba(0,0,0,0.14),0_6.9px_6.9px_-2.5px_rgba(0,0,0,0.13),0_13.6px_13.6px_-3.125px_rgba(0,0,0,0.1),0_30px_30px_-3.75px_rgba(0,0,0,0.05)]",
     secondary:
       "bg-white/[0.06] text-white hover:bg-white/10 shadow-[0_0.7px_0.7px_-0.625px_rgba(0,0,0,0.15),0_1.8px_1.8px_-1.25px_rgba(0,0,0,0.14),0_3.6px_3.6px_-1.875px_rgba(0,0,0,0.14),0_6.9px_6.9px_-2.5px_rgba(0,0,0,0.13),0_13.6px_13.6px_-3.125px_rgba(0,0,0,0.1),0_30px_30px_-3.75px_rgba(0,0,0,0.05)]",
     ghost: "bg-transparent text-white hover:bg-white/5",

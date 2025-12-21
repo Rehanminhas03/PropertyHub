@@ -70,10 +70,10 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
                 style={{
                   width: ring.size,
                   height: ring.size,
-                  border: `2px solid rgba(213, 179, 103, ${0.3 + idx * 0.08})`,
+                  border: `2px solid rgba(180, 145, 70, ${0.3 + idx * 0.08})`,
                   boxShadow: `
-                    0 0 ${50 + idx * 15}px rgba(213, 179, 103, ${0.15 + idx * 0.05}),
-                    inset 0 0 ${40 + idx * 10}px rgba(213, 179, 103, ${0.05 + idx * 0.02})
+                    0 0 ${50 + idx * 15}px rgba(180, 145, 70, ${0.15 + idx * 0.05}),
+                    inset 0 0 ${40 + idx * 10}px rgba(180, 145, 70, ${0.05 + idx * 0.02})
                   `,
                 }}
               />
@@ -87,8 +87,8 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
                   top: 0,
                   left: "50%",
                   transform: "translateX(-50%) translateY(-50%)",
-                  background: `radial-gradient(circle, rgba(255, 220, 150, 1) 0%, rgba(213, 179, 103, 0.8) 40%, transparent 100%)`,
-                  boxShadow: `0 0 ${25 + idx * 8}px rgba(213, 179, 103, 0.9), 0 0 ${50 + idx * 10}px rgba(213, 179, 103, 0.5)`,
+                  background: `radial-gradient(circle, rgba(255, 220, 150, 1) 0%, rgba(180, 145, 70, 0.8) 40%, transparent 100%)`,
+                  boxShadow: `0 0 ${25 + idx * 8}px rgba(180, 145, 70, 0.9), 0 0 ${50 + idx * 10}px rgba(180, 145, 70, 0.5)`,
                 }}
                 animate={{
                   opacity: [0.8, 1, 0.8],
@@ -110,8 +110,8 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
                   bottom: 0,
                   left: "50%",
                   transform: "translateX(-50%) translateY(50%)",
-                  background: `radial-gradient(circle, rgba(255, 220, 150, 0.9) 0%, rgba(213, 179, 103, 0.5) 50%, transparent 100%)`,
-                  boxShadow: `0 0 ${20 + idx * 5}px rgba(213, 179, 103, 0.7)`,
+                  background: `radial-gradient(circle, rgba(255, 220, 150, 0.9) 0%, rgba(180, 145, 70, 0.5) 50%, transparent 100%)`,
+                  boxShadow: `0 0 ${20 + idx * 5}px rgba(180, 145, 70, 0.7)`,
                 }}
                 animate={{
                   opacity: [0.6, 1, 0.6],
@@ -132,8 +132,8 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
             style={{
               width: 100,
               height: 100,
-              background: "radial-gradient(circle, rgba(255, 220, 150, 0.5) 0%, rgba(213, 179, 103, 0.3) 40%, transparent 70%)",
-              boxShadow: "0 0 100px rgba(213, 179, 103, 0.6), 0 0 150px rgba(213, 179, 103, 0.3)",
+              background: "radial-gradient(circle, rgba(255, 220, 150, 0.5) 0%, rgba(180, 145, 70, 0.3) 40%, transparent 70%)",
+              boxShadow: "0 0 100px rgba(180, 145, 70, 0.6), 0 0 150px rgba(180, 145, 70, 0.3)",
             }}
             animate={{
               scale: [1, 1.5, 1],
@@ -152,8 +152,8 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
             style={{
               width: 120,
               height: 120,
-              border: "2px solid rgba(213, 179, 103, 0.5)",
-              boxShadow: "0 0 40px rgba(213, 179, 103, 0.3), inset 0 0 30px rgba(213, 179, 103, 0.15)",
+              border: "2px solid rgba(180, 145, 70, 0.5)",
+              boxShadow: "0 0 40px rgba(180, 145, 70, 0.3), inset 0 0 30px rgba(180, 145, 70, 0.15)",
             }}
             animate={{ rotateZ: -360 }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
@@ -176,8 +176,8 @@ export default function AnimatedRings({ className = "" }: AnimatedRingsProps) {
           style={{
             width: particle.size,
             height: particle.size,
-            background: `rgba(213, 179, 103, ${particle.opacity})`,
-            boxShadow: `0 0 ${6 + i * 2}px rgba(213, 179, 103, 0.4)`,
+            background: `rgba(180, 145, 70, ${particle.opacity})`,
+            boxShadow: `0 0 ${6 + i * 2}px rgba(180, 145, 70, 0.4)`,
             top: "50%",
             left: "50%",
           }}

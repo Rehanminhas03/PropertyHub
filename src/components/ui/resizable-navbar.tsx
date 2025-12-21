@@ -112,8 +112,8 @@ export const NavBody: React.FC<NavBodyProps> = ({
       className={cn(
         "hidden lg:flex flex-row items-center justify-between mx-auto py-3 px-6 rounded-full relative z-50",
         visible
-          ? "bg-[#161616]/80 backdrop-blur-[10px] border border-[#d5b367]/10 shadow-lg"
-          : "bg-[#161616]/80 backdrop-blur-[10px] border border-[#d5b367]/10",
+          ? "bg-[#161616]/80 backdrop-blur-[10px] border border-[#b49146]/10 shadow-lg"
+          : "bg-[#161616]/80 backdrop-blur-[10px] border border-[#b49146]/10",
         className
       )}
     >
@@ -211,13 +211,13 @@ export const NavbarButton: React.FC<NavbarButtonProps> = ({
 
   const variants = {
     primary:
-      "bg-[#d5b367] text-[#161616] hover:bg-[#c9a555] shadow-[0_0.7px_0.7px_-0.625px_rgba(0,0,0,0.15),0_1.8px_1.8px_-1.25px_rgba(0,0,0,0.14),0_3.6px_3.6px_-1.875px_rgba(0,0,0,0.14),0_6.9px_6.9px_-2.5px_rgba(0,0,0,0.13),0_13.6px_13.6px_-3.125px_rgba(0,0,0,0.1),0_30px_30px_-3.75px_rgba(0,0,0,0.05)]",
+      "bg-[#b49146] text-[#161616] hover:bg-[#c9a555] shadow-[0_0.7px_0.7px_-0.625px_rgba(0,0,0,0.15),0_1.8px_1.8px_-1.25px_rgba(0,0,0,0.14),0_3.6px_3.6px_-1.875px_rgba(0,0,0,0.14),0_6.9px_6.9px_-2.5px_rgba(0,0,0,0.13),0_13.6px_13.6px_-3.125px_rgba(0,0,0,0.1),0_30px_30px_-3.75px_rgba(0,0,0,0.05)]",
     secondary:
       "bg-transparent border border-white/20 text-white hover:bg-white/10",
     dark:
       "bg-[#161616] text-white border border-white/20 hover:bg-neutral-900",
     gradient:
-      "bg-gradient-to-r from-[#d5b367] to-[#e8d5a3] text-[#161616] hover:opacity-90",
+      "bg-gradient-to-r from-[#b49146] to-[#e8d5a3] text-[#161616] hover:opacity-90",
   };
 
   return (
@@ -255,7 +255,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({
       className={cn(
         "flex lg:hidden flex-col mx-auto py-4 px-6 rounded-full relative z-50",
         visible
-          ? "bg-[#161616]/90 backdrop-blur-md border border-[#d5b367]/10"
+          ? "bg-[#161616]/90 backdrop-blur-md border border-[#b49146]/10"
           : "bg-[#161616]/70 backdrop-blur-sm",
         className
       )}
@@ -305,7 +305,7 @@ export const MobileNavMenu: React.FC<MobileNavMenuProps> = ({
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
           className={cn(
-            "absolute top-full left-0 right-0 mt-4 bg-[#161616]/95 backdrop-blur-md border border-[#d5b367]/10 rounded-2xl p-6 flex flex-col gap-4",
+            "absolute top-full left-0 right-0 mt-4 bg-[#161616]/95 backdrop-blur-md border border-[#b49146]/10 rounded-2xl p-6 flex flex-col gap-4",
             className
           )}
         >
