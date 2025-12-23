@@ -117,7 +117,7 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Animated Rings Background - Like prorealtify.com */}
+      {/* Animated Rings Background */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{ y: backgroundY, opacity }}
@@ -143,7 +143,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Dotted Background Animation - ABOVE blur overlay like prorealtify.com */}
+      {/* Dotted Background Animation - ABOVE blur overlay */}
       <motion.div
         className="absolute inset-0 pointer-events-none z-[8]"
         style={{ opacity }}
