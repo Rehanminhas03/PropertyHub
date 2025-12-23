@@ -191,11 +191,18 @@ export const NavItems: React.FC<NavItemsProps> = ({ items, className, onItemClic
 };
 
 export const NavbarLogo: React.FC<NavbarLogoProps> = ({ className }) => {
-  const siteConfig = require("@/config/site.json");
-
   return (
-    <Link href="/" className={cn("flex items-center gap-2", className)}>
-      <span className="text-white font-bold text-xl">{siteConfig.name}</span>
+    <Link href="/" className={cn("flex items-center gap-2 group", className)}>
+      {/* Logo Icon */}
+      <div className="relative w-9 h-9 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#b49146] via-[#d5b367] to-[#b49146] rounded-lg rotate-45 group-hover:rotate-[55deg] transition-transform duration-300" />
+        <span className="relative text-[#161616] font-black text-lg z-10">S</span>
+      </div>
+      {/* Logo Text */}
+      <span className="text-2xl font-bold tracking-tight">
+        <span className="text-white">Stream</span>
+        <span className="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">lyne</span>
+      </span>
     </Link>
   );
 };
