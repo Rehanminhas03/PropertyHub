@@ -226,12 +226,12 @@ export const NavbarLogo: React.FC<NavbarLogoProps> = ({ className }) => {
       {/* Logo Icon */}
       <div className="relative w-9 h-9 flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-br from-[#b49146] via-[#d5b367] to-[#b49146] rounded-lg rotate-45 group-hover:rotate-[55deg] transition-transform duration-300" />
-        <span className="relative text-[#161616] font-black text-lg z-10">S</span>
+        <span className="relative text-[#161616] font-black text-lg z-10">M</span>
       </div>
       {/* Logo Text */}
       <span className="text-2xl font-bold tracking-tight">
-        <span className="text-white">Stream</span>
-        <span className="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">lyne</span>
+        <span className="text-white">Market</span>
+        <span className="bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">lyn</span>
       </span>
     </Link>
   );
@@ -399,9 +399,9 @@ export const MobileNavMenu: React.FC<MobileNavMenuProps> = ({
               className
             )}
           >
-            {/* Header with Streamlyne text and close button */}
+            {/* Header with Marketlyn text and close button */}
             <div className="flex items-center justify-between p-6">
-              <span className="text-white/40 text-xs tracking-[0.2em] uppercase">Streamlyne</span>
+              <span className="text-white/40 text-xs tracking-[0.2em] uppercase">Marketlyn</span>
               <button
                 onClick={onClose}
                 className="text-white/60 hover:text-white transition-colors"

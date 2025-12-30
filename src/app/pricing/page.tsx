@@ -108,7 +108,7 @@ const provenChannels = [
 // Process accordion items
 const processItems = [
   {
-    title: "Referral Generation at Streamlyne",
+    title: "Referral Generation at Marketlyn",
     content: "We generate high-quality referrals using a blend of strategic PPC, SEO, social media marketing, organic website traffic, and trusted partner platforms. Our multi-channel outreach ensures a steady stream of qualified prospects ready to engage with your business.",
   },
   {
@@ -131,14 +131,14 @@ const processItems = [
 
 // Comparison table data
 const comparisonRows = [
-  { feature: "Subscription Cost", streamlyne: "$375 or $675 one-time fee", competitor1: "$200+/month*, up to $1000+/month*", competitor2: "$150 per referral*" },
-  { feature: "Referral Exclusivity", streamlyne: "Exclusive referrals", competitor1: "Varies with subscription tier", competitor2: "First-come, first-served" },
-  { feature: "Consistent Pricing", streamlyne: "Stable rates", competitor1: "Interest and market-driven variability", competitor2: "Sort by property costs and area competition" },
-  { feature: "Preferred Area Selection", streamlyne: "Scheduled appts from your zip codes", competitor1: "Agents can purchase exclusive zip codes", competitor2: "Limited due to high competition" },
-  { feature: "Referral Generation", streamlyne: "Geo-targeted campaigns on multiple platforms", competitor1: "Campaigns across various platforms", competitor2: "Listings/ads on own/other platforms" },
-  { feature: "Contact Confirmation", streamlyne: true, competitor1: false, competitor2: true },
-  { feature: "Referral Distribution Priority", streamlyne: "Exclusive to you", competitor1: "Referrals placed in a pool for agents in that area", competitor2: "Referrals placed in a pool for agents in that area" },
-  { feature: "Customized Advertising Campaigns", streamlyne: true, competitor1: false, competitor2: "Available at an extra cost" },
+  { feature: "Subscription Cost", marketlyn: "$375 or $675 one-time fee", competitor1: "$200+/month*, up to $1000+/month*", competitor2: "$150 per referral*" },
+  { feature: "Referral Exclusivity", marketlyn: "Exclusive referrals", competitor1: "Varies with subscription tier", competitor2: "First-come, first-served" },
+  { feature: "Consistent Pricing", marketlyn: "Stable rates", competitor1: "Interest and market-driven variability", competitor2: "Sort by property costs and area competition" },
+  { feature: "Preferred Area Selection", marketlyn: "Scheduled appts from your zip codes", competitor1: "Agents can purchase exclusive zip codes", competitor2: "Limited due to high competition" },
+  { feature: "Referral Generation", marketlyn: "Geo-targeted campaigns on multiple platforms", competitor1: "Campaigns across various platforms", competitor2: "Listings/ads on own/other platforms" },
+  { feature: "Contact Confirmation", marketlyn: true, competitor1: false, competitor2: true },
+  { feature: "Referral Distribution Priority", marketlyn: "Exclusive to you", competitor1: "Referrals placed in a pool for agents in that area", competitor2: "Referrals placed in a pool for agents in that area" },
+  { feature: "Customized Advertising Campaigns", marketlyn: true, competitor1: false, competitor2: "Available at an extra cost" },
 ];
 
 // Solo pricing plans
@@ -344,11 +344,11 @@ const toolsReplaced = [
 // FAQ items
 const faqItems = [
   {
-    question: "How does Streamlyne generate high-quality leads?",
+    question: "How does Marketlyn generate high-quality leads?",
     answer: "We use a combination of paid advertising, SEO, social media marketing, and strategic partnerships to generate leads. Each lead is verified by our internal team before being passed to you.",
   },
   {
-    question: "What sets Streamlyne's referrals apart from others?",
+    question: "What sets Marketlyn's referrals apart from others?",
     answer: "Our referrals are exclusive to you - we never share them with competitors in your area. Each referral is pre-qualified and verified, ensuring higher conversion rates.",
   },
   {
@@ -356,15 +356,15 @@ const faqItems = [
     answer: "The number of referrals depends on your plan. Starter plans receive 2-3 referrals/month, Growth plans receive 3-5, and Premium plans receive 4-6 exclusive referrals per month.",
   },
   {
-    question: "How do I sign up to receive referrals from Streamlyne?",
+    question: "How do I sign up to receive referrals from Marketlyn?",
     answer: "Simply choose a plan that fits your needs and click 'Choose this plan'. Our team will reach out to set up your account and preferred areas within 24 hours.",
   },
   {
-    question: "How does Streamlyne nurture/verify the referrals?",
+    question: "How does Marketlyn nurture/verify the referrals?",
     answer: "Our Business Development Representatives (BDRs) verify each lead through phone calls and email confirmation. We ensure the prospect is genuinely interested before scheduling appointments.",
   },
   {
-    question: "What is Streamlyne's referral fee structure?",
+    question: "What is Marketlyn's referral fee structure?",
     answer: "Referral fees range from 10-15% depending on your plan. Premium and Team plans enjoy lower referral fees at 10%, while Starter and Growth plans have a 15% referral fee.",
   },
 ];
@@ -444,7 +444,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* Section 3: Why Choose Streamlyne */}
+        {/* Section 3: Why Choose Marketlyn */}
         <section id="how-we-work" className="relative z-10 max-w-6xl mx-auto px-4 mb-32">
           <motion.div
             className="text-center mb-16"
@@ -535,7 +535,7 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* Section 5: At Streamlyne, we simplify */}
+        {/* Section 5: At Marketlyn, we simplify */}
         <section className="relative z-10 max-w-6xl mx-auto px-4 mb-32">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-white mb-4"
@@ -657,7 +657,7 @@ export default function PricingPage() {
                   <th className="py-4 px-4 text-center">
                     <div className="flex items-center justify-center gap-2">
                       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#b49146] to-[#e8d5a3] flex items-center justify-center">
-                        <span className="text-[#161616] font-bold text-sm">S</span>
+                        <span className="text-[#161616] font-bold text-sm">M</span>
                       </div>
                       <span className="text-white font-bold">{siteConfig.name}</span>
                     </div>
@@ -671,14 +671,14 @@ export default function PricingPage() {
                   <tr key={idx} className="border-b border-white/5">
                     <td className="py-4 px-4 text-white/60">{row.feature}</td>
                     <td className="py-4 px-4 text-center">
-                      {typeof row.streamlyne === "boolean" ? (
-                        row.streamlyne ? (
+                      {typeof row.marketlyn === "boolean" ? (
+                        row.marketlyn ? (
                           <IconCheck className="w-5 h-5 text-[#d5b367] mx-auto" />
                         ) : (
                           <IconX className="w-5 h-5 text-white/30 mx-auto" />
                         )
                       ) : (
-                        <span className="text-white text-sm">{row.streamlyne}</span>
+                        <span className="text-white text-sm">{row.marketlyn}</span>
                       )}
                     </td>
                     <td className="py-4 px-4 text-center">

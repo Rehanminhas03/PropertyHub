@@ -24,8 +24,8 @@ const contactInfo = [
   {
     icon: IconMail,
     label: "Email",
-    value: "hello@streamlyne.com",
-    href: "mailto:hello@streamlyne.com",
+    value: "hello@marketlyn.com",
+    href: "mailto:hello@marketlyn.com",
   },
   {
     icon: IconPhone,

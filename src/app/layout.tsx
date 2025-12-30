@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Streamlyne | AI Powered Digital Marketing for Real Estate",
+  title: "Marketlyn | AI Powered Digital Marketing for Real Estate",
   description: "Intent-verified referrals and AI-driven marketing to grow your real estate business. Clarity. Consistency. Results.",
 };
 
