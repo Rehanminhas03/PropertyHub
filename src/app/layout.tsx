@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pro Realtify | AI Powered Digital Marketing for Real Estate",
+  title: "Streamlyne | AI Powered Digital Marketing for Real Estate",
   description: "Intent-verified referrals and AI-driven marketing to grow your real estate business. Clarity. Consistency. Results.",
 };
 
@@ -25,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
-        {children}
+        <div id="page-wrapper">
+          {children}
+        </div>
       </body>
     </html>
   );

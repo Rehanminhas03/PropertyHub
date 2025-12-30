@@ -5,7 +5,8 @@ import AboutUs from "@/components/sections/AboutUs";
 import Stats from "@/components/sections/Stats";
 import Benefits from "@/components/sections/Benefits";
 import Services from "@/components/sections/Services";
-import Testimonials from "@/components/sections/Testimonials";
+// import Testimonials from "@/components/sections/Testimonials";
+import CRM from "@/components/sections/CRM";
 import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
@@ -20,7 +21,8 @@ export default function Home() {
       <Stats />
       <Benefits />
       <Services />
-      <Testimonials />
+      {/* <Testimonials /> */}
+      <CRM />
       <FAQ />
       <Contact />
       <Footer />

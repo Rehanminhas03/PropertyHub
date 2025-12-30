@@ -18,7 +18,7 @@ const navItems = [
   { name: "About Us", link: "/#about-us" },
   { name: "Benefits", link: "/#benefits" },
   { name: "Services", link: "/#services" },
-  { name: "Testimonials", link: "/#testimonials" },
+  { name: "CRM", link: "/#crm" },
   { name: "FAQ", link: "/#faq" },
 ];
 
@@ -31,8 +31,8 @@ export default function NavbarDemo() {
       <NavBody>
         <NavbarLogo />
         <NavItems items={navItems} />
-        <NavbarButton variant="primary" href="/contact">
-          Get in touch
+        <NavbarButton variant="primary" href="/pricing">
+          Get Started
           <ArrowIcon />
         </NavbarButton>
       </NavBody>
@@ -52,17 +52,19 @@ export default function NavbarDemo() {
         >
           <NavItems
             items={navItems}
-            className="flex-col items-start gap-4"
+            className="flex-col items-start gap-2"
             onItemClick={() => setMobileMenuOpen(false)}
           />
-          <NavbarButton
-            variant="primary"
-            href="/contact"
-            className="w-full justify-center mt-4"
-          >
-            Get in touch
-            <ArrowIcon />
-          </NavbarButton>
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <NavbarButton
+              variant="primary"
+              href="/pricing"
+              className="w-full justify-center"
+            >
+              Get Started
+              <ArrowIcon />
+            </NavbarButton>
+          </div>
         </MobileNavMenu>
       </MobileNav>
     </Navbar>

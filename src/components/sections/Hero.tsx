@@ -3,40 +3,25 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import AnimatedRings from "@/components/ui/animated-rings";
-import NetworkAnimation from "@/components/ui/network-animation";
-import DottedBackground from "@/components/ui/dotted-background";
-import CursorTrail from "@/components/ui/cursor-trail";
-import Particles from "@/components/ui/particles";
-import SplitText, { ShimmerText } from "@/components/ui/split-text";
-import { TypewriterText } from "@/components/ui/text-reveal";
-import MouseSpotlight from "@/components/ui/mouse-spotlight";
 import MagneticButton from "@/components/ui/magnetic-button";
 import siteConfig from "@/config/site.json";
 import Image from "next/image";
 
-// Brokerage logos for the marquee - using local images
+// Brokerage logos for the marquee
 const brokerageLogos = [
-  {
-    name: "Partner 1",
-    logo: "/logos/1.png",
-  },
-  {
-    name: "Partner 2",
-    logo: "/logos/2.png",
-  },
-  {
-    name: "Partner 3",
-    logo: "/logos/3.png",
-  },
-  {
-    name: "Partner 4",
-    logo: "/logos/4.png",
-  },
-  {
-    name: "Partner 5",
-    logo: "/logos/5.png",
-  },
+  { name: "Partner 1", logo: "/logos/1.png", scale: 1 },
+  { name: "Partner 2", logo: "/logos/2.png", scale: 1 },
+  { name: "Partner 3", logo: "/logos/3.png", scale: 1 },
+  { name: "Partner 4", logo: "/logos/4.png", scale: 1 },
+  { name: "Partner 5", logo: "/logos/5.png", scale: 1 },
+  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3 },
+  { name: "Partner 7", logo: "/logos/7.png", scale: 1.2 },
+  { name: "Partner 8", logo: "/logos/8.png", scale: 1 },
+  { name: "Partner 9", logo: "/logos/9.png", scale: 1.1 },
+  { name: "Partner 10", logo: "/logos/10.png", scale: 1.3 },
+  { name: "Partner 11", logo: "/logos/11.png", scale: 1.3 },
+  { name: "Partner 12", logo: "/logos/12.png", scale: 1.1 },
+  { name: "Partner 13", logo: "/logos/13.png", scale: 1 },
 ];
 
 export default function Hero() {
@@ -46,222 +31,153 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Parallax transformations
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
   return (
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-32 px-4 overflow-hidden bg-[#161616]"
+      className="relative min-h-screen bg-[#161616] overflow-hidden"
     >
-      {/* Glassmorphism background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Large glass panel - top left */}
-        <div
-          className="absolute top-[10%] left-[5%] w-[400px] h-[400px] rounded-3xl opacity-20"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)",
-            backdropFilter: "blur(40px)",
-            WebkitBackdropFilter: "blur(40px)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        />
-        {/* Medium glass panel - top right */}
-        <div
-          className="absolute top-[20%] right-[10%] w-[300px] h-[300px] rounded-2xl opacity-15"
-          style={{
-            background: "linear-gradient(135deg, rgba(213,179,103,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-            backdropFilter: "blur(30px)",
-            WebkitBackdropFilter: "blur(30px)",
-            border: "1px solid rgba(213,179,103,0.1)",
-          }}
-        />
-        {/* Small glass panel - bottom */}
-        <div
-          className="absolute bottom-[25%] left-[20%] w-[250px] h-[200px] rounded-xl opacity-10"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 100%)",
-            backdropFilter: "blur(25px)",
-            WebkitBackdropFilter: "blur(25px)",
-            border: "1px solid rgba(255,255,255,0.05)",
-          }}
-        />
+      {/* Background with diagonal image */}
+      <div className="absolute inset-0">
+        {/* Dark background base */}
+        <div className="absolute inset-0 bg-[#161616]" />
+
+        {/* Diagonal Image Container */}
+        <motion.div
+          className="absolute top-0 right-0 w-[65%] h-full origin-top-right"
+          style={{ scale: imageScale, y: imageY }}
+        >
+          {/* Diagonal clip path */}
+          <div
+            className="absolute inset-0 overflow-hidden"
+            style={{
+              clipPath: "polygon(25% 0, 100% 0, 100% 100%, 0% 100%)",
+            }}
+          >
+            {/* Image */}
+            <Image
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
+              alt="Modern Architecture"
+              fill
+              className="object-cover"
+              priority
+              sizes="65vw"
+            />
+            {/* Dark overlay on image */}
+            <div className="absolute inset-0 bg-[#161616]/40" />
+            {/* Gold tint */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#d5b367]/10 via-transparent to-transparent mix-blend-overlay" />
+          </div>
+        </motion.div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-[35%] w-px h-full bg-gradient-to-b from-transparent via-[#d5b367]/20 to-transparent" />
       </div>
 
-      {/* Bottom fade gradient to blend with next section */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none z-20"
-        style={{
-          background: "linear-gradient(to bottom, transparent 0%, #161616 100%)",
-        }}
-      />
-      {/* Cursor Trail Effect */}
-      <CursorTrail particleCount={12} particleLifetime={600} />
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex flex-col justify-center">
+        {/* Hero Content */}
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-24">
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Badge>
+                <div className="w-2 h-2 rounded-full bg-[#d5b367] mr-2 animate-pulse" />
+                {siteConfig.tagline}
+              </Badge>
+            </motion.div>
 
-      {/* Mouse-following spotlight */}
-      <MouseSpotlight size={500} opacity={0.1} />
+            {/* Main Heading */}
+            <motion.h1
+              className="mt-8 text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <span className="block">Marketing</span>
+              <span className="block">Without The</span>
+              <span className="block bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">
+                Hassle.
+              </span>
+            </motion.h1>
 
-      {/* Network Animation Background */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-[1]"
-        style={{ opacity }}
-      >
-        <NetworkAnimation
-          nodeCount={50}
-          connectionDistance={180}
-          nodeColor="rgba(180, 145, 70, 0.6)"
-          lineColor="rgba(180, 145, 70, 0.12)"
-        />
-      </motion.div>
+            {/* Description */}
+            <motion.p
+              className="mt-6 text-lg md:text-xl text-white/60 max-w-lg leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              With our AI-driven marketing platform, you can boost your lead generation
+              with intent-verified referrals. Scale your real estate business effortlessly.
+            </motion.p>
 
-      {/* Animated Rings Background */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-[2]"
-        style={{ y: backgroundY, opacity }}
-      >
-        <AnimatedRings className="opacity-90" />
-      </motion.div>
-
-      {/* Particle Background */}
-      <Particles
-        className="absolute inset-0 pointer-events-none"
-        quantity={50}
-        color="#b49146"
-        ease={80}
-      />
-
-      {/* Subtle overlay - minimal blur to keep animations visible */}
-      <div
-        className="absolute inset-0 z-[5] pointer-events-none"
-        style={{
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-          background: "rgba(22, 22, 22, 0.1)",
-        }}
-      />
-
-      {/* Dotted Background Animation - ABOVE blur overlay */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none z-[8]"
-        style={{ opacity }}
-      >
-        <DottedBackground
-          dotCount={30}
-          dotColor="rgba(180, 145, 70, 1)"
-          glowColor="rgba(180, 145, 70, 0.4)"
-          maxDotSize={1.2}
-          minDotSize={0.4}
-          speed={0.9}
-        />
-      </motion.div>
-
-      {/* Content with parallax */}
-      <motion.div
-        className="relative z-10 flex flex-col items-center max-w-4xl mx-auto text-center"
-        style={{ y: contentY }}
-      >
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Badge>
-            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#b49146] to-[#e8d5a3] mr-2" />
-            {siteConfig.name} - {siteConfig.tagline}
-          </Badge>
-        </motion.div>
-
-        {/* Heading with letter-by-letter animation */}
-        <h1 className="mt-8 text-5xl md:text-7xl lg:text-[80px] font-bold text-white tracking-tight leading-tight">
-          <SplitText text="Marketing." delay={0.3} staggerDelay={0.04} />
-          {" "}
-          <ShimmerText>
-            <SplitText
-              text="Perfected."
-              delay={0.7}
-              staggerDelay={0.04}
-              letterClassName="bg-gradient-to-r from-[#e8d5a3] via-[#fff8e7] to-[#e8d5a3] bg-clip-text text-transparent bg-[length:200%_100%] animate-gradient"
-            />
-          </ShimmerText>
-        </h1>
-
-        {/* Subheading with typewriter effect */}
-        <motion.div
-          className="mt-6 text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <TypewriterText
-            text="Intent-verified referrals and AI-driven marketing to grow your business."
-            delay={1}
-            speed={0.03}
-          />
-          <br />
-          <br />
-          <motion.span
-            className="font-semibold text-white"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 3.5, duration: 0.5 }}
-          >
-            Clarity. Consistency. Results.
-          </motion.span>
-        </motion.div>
-
-        {/* CTA Buttons - Magnetic */}
-        <motion.div
-          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <MagneticButton variant="primary" href="/contact">
-            Book a call
-          </MagneticButton>
-          <MagneticButton variant="secondary" href="#services">
-            View Services
-          </MagneticButton>
-        </motion.div>
-
-      </motion.div>
-
-      {/* Logo Marquee - Outside parallax, stays visible */}
-      <motion.div
-        className="relative z-10 w-[80%] mx-auto mt-12 mb-8"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-      >
-        <p className="text-sm text-white/40 text-center mb-6">Trusted by agents at leading brokerages</p>
-        <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
-          <motion.div
-            className="flex items-center"
-            animate={{ x: [0, -(brokerageLogos.length * (128 + 40))] }}
-            transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-          >
-            {/* Brokerage logos - duplicated twice for seamless infinite loop */}
-            {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
-              <div
-                key={idx}
-                className="relative h-12 w-32 mx-5 opacity-60 hover:opacity-90 transition-opacity flex-shrink-0 grayscale hover:grayscale-0"
-              >
-                <Image
-                  src={brokerage.logo}
-                  alt={brokerage.name}
-                  fill
-                  className="object-contain brightness-0 invert"
-                  sizes="128px"
-                />
-              </div>
-            ))}
-          </motion.div>
+            {/* CTA Buttons */}
+            <motion.div
+              className="mt-10 flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <MagneticButton variant="primary" href="/contact">
+                Get Started
+              </MagneticButton>
+              <MagneticButton variant="secondary" href="#services">
+                Learn More
+              </MagneticButton>
+            </motion.div>
+          </div>
         </div>
-      </motion.div>
+
+        {/* Trusted By Marquee - Centered */}
+        <motion.div
+          className="pb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <div className="w-[60%] mx-auto">
+            <p className="text-sm text-white/50 font-semibold text-center mb-8 uppercase tracking-widest">
+              Trusted by agents at leading brokerages
+            </p>
+
+            {/* Logo Images Marquee */}
+            <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
+              <motion.div
+                className="flex items-center"
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+              >
+                {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
+                  <div
+                    key={idx}
+                    className="relative h-10 w-32 mx-3 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                  >
+                    <Image
+                      src={brokerage.logo}
+                      alt={brokerage.name}
+                      fill
+                      className="object-contain brightness-0 invert"
+                      sizes="140px"
+                      style={{ transform: `scale(${brokerage.scale})` }}
+                    />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom border accent */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d5b367]/30 to-transparent z-20" />
     </section>
   );
 }

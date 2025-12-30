@@ -9,7 +9,8 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 interface NavItem {
   name: string;
@@ -65,6 +66,11 @@ interface MobileNavMenuProps {
 export const Navbar: React.FC<NavbarProps> = ({ children, className }) => {
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState<boolean>(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 100) {
@@ -74,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({ children, className }) => {
     }
   });
 
-  return (
+  const navContent = (
     <motion.nav
       className={cn(
         "fixed top-0 inset-x-0 z-50 w-full",
@@ -91,6 +97,10 @@ export const Navbar: React.FC<NavbarProps> = ({ children, className }) => {
       })}
     </motion.nav>
   );
+
+  // Use portal to render navbar outside page-wrapper
+  if (!mounted) return navContent;
+  return createPortal(navContent, document.body);
 };
 
 export const NavBody: React.FC<NavBodyProps> = ({
@@ -101,13 +111,14 @@ export const NavBody: React.FC<NavBodyProps> = ({
   return (
     <motion.div
       animate={{
-        width: visible ? "70%" : "100%",
         y: visible ? 20 : 0,
+        width: visible ? "60%" : "70%",
       }}
       transition={{
         type: "spring",
-        stiffness: 200,
-        damping: 50,
+        stiffness: 80,
+        damping: 20,
+        duration: 0.8,
       }}
       className={cn(
         "hidden lg:flex flex-row items-center justify-between mx-auto py-3 px-6 rounded-full relative z-50",
@@ -116,6 +127,7 @@ export const NavBody: React.FC<NavBodyProps> = ({
           : "bg-[#161616]/80 backdrop-blur-[10px] border border-[#b49146]/10",
         className
       )}
+      style={{ width: visible ? "60%" : "70%" }}
     >
       {children}
     </motion.div>
@@ -156,14 +168,23 @@ const smoothScrollTo = (targetId: string) => {
 
 export const NavItems: React.FC<NavItemsProps> = ({ items, className, onItemClick }) => {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, link: string) => {
-    // Check if it's a hash link for the current page
+    // Check if it's a hash link
     if (link.startsWith("/#") || link.startsWith("#")) {
-      e.preventDefault();
       const targetId = link.replace("/#", "").replace("#", "");
-      smoothScrollTo(targetId);
-      onItemClick?.();
+      const targetElement = document.getElementById(targetId);
+
+      // Only prevent default and smooth scroll if element exists on current page
+      if (targetElement) {
+        e.preventDefault();
+        smoothScrollTo(targetId);
+        onItemClick?.();
+      }
+      // If element doesn't exist, let the link navigate normally to homepage + hash
     }
   };
+
+  // Check if it's mobile style (flex-col means mobile)
+  const isMobile = className?.includes("flex-col");
 
   return (
     <div className={cn("flex items-center gap-8", className)}>
@@ -172,18 +193,27 @@ export const NavItems: React.FC<NavItemsProps> = ({ items, className, onItemClic
           key={idx}
           href={item.link}
           onClick={(e) => handleClick(e, item.link)}
-          className="group relative text-neutral-300 hover:text-white text-sm font-medium overflow-hidden"
+          className={cn(
+            "group relative font-medium",
+            isMobile
+              ? "text-xl text-white/80 hover:text-white py-2 transition-colors"
+              : "text-sm text-neutral-300 hover:text-white overflow-hidden"
+          )}
         >
-          <span className="relative block overflow-hidden h-[1.2em]">
-            {/* Original text - rolls up on hover */}
-            <span className="block transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-              {item.name}
+          {isMobile ? (
+            // Simple text for mobile
+            <span>{item.name}</span>
+          ) : (
+            // Roll animation for desktop
+            <span className="relative block overflow-hidden h-[1.2em]">
+              <span className="block transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                {item.name}
+              </span>
+              <span className="absolute left-0 top-0 block translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0">
+                {item.name}
+              </span>
             </span>
-            {/* Duplicate text - rolls in from below */}
-            <span className="absolute left-0 top-0 block translate-y-full transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0">
-              {item.name}
-            </span>
-          </span>
+          )}
         </Link>
       ))}
     </div>
@@ -252,17 +282,17 @@ export const MobileNav: React.FC<MobileNavProps> = ({
     <motion.div
       animate={{
         y: visible ? 20 : 0,
-        width: visible ? "95%" : "100%",
       }}
       transition={{
         type: "spring",
-        stiffness: 200,
-        damping: 50,
+        stiffness: 80,
+        damping: 20,
+        duration: 0.8,
       }}
       className={cn(
-        "flex lg:hidden flex-col mx-auto py-4 px-6 rounded-full relative z-50",
+        "flex lg:hidden flex-col py-4 px-6 relative z-50 w-full",
         visible
-          ? "bg-[#161616]/90 backdrop-blur-md border border-[#b49146]/10"
+          ? "bg-[#161616]/90 backdrop-blur-md border-b border-[#b49146]/10"
           : "bg-[#161616]/70 backdrop-blur-sm",
         className
       )}
@@ -303,23 +333,105 @@ export const MobileNavMenu: React.FC<MobileNavMenuProps> = ({
   isOpen,
   onClose,
 }) => {
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  // Wait for client-side mount for portal
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Shift the whole page when menu opens - page moves left by 60%
+  useEffect(() => {
+    const pageWrapper = document.getElementById('page-wrapper');
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      if (pageWrapper) {
+        pageWrapper.style.transition = 'transform 0.5s cubic-bezier(0.32, 0.72, 0, 1)';
+        pageWrapper.style.transform = 'translateX(-60%)';
+      }
+    } else {
+      document.body.style.overflow = '';
+      if (pageWrapper) {
+        pageWrapper.style.transform = 'translateX(0)';
+      }
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      if (pageWrapper) {
+        pageWrapper.style.transform = 'translateX(0)';
+      }
+    };
+  }, [isOpen]);
+
+  // Don't render on server
+  if (!mounted) return null;
+
+  // Use portal to render menu outside page-wrapper
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.2 }}
-          className={cn(
-            "absolute top-full left-0 right-0 mt-4 bg-[#161616]/95 backdrop-blur-md border border-[#b49146]/10 rounded-2xl p-6 flex flex-col gap-4",
-            className
-          )}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200]"
         >
-          {children}
+          {/* Left side - shows shifted page, click to close */}
+          <div
+            className="absolute top-0 left-0 w-[40%] h-full"
+            onClick={onClose}
+          />
+
+          {/* Right side - Menu panel (60%) */}
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: "0%" }}
+            exit={{ x: "100%" }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 35,
+            }}
+            className={cn(
+              "fixed top-0 right-0 h-full w-[60%] bg-[#0a0a0a] z-[250]",
+              className
+            )}
+          >
+            {/* Header with Streamlyne text and close button */}
+            <div className="flex items-center justify-between p-6">
+              <span className="text-white/40 text-xs tracking-[0.2em] uppercase">Streamlyne</span>
+              <button
+                onClick={onClose}
+                className="text-white/60 hover:text-white transition-colors"
+              >
+                <IconX className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Menu content */}
+            <div className="px-6 py-8 flex flex-col gap-1">
+              {React.Children.map(children, (child, index) => (
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: 0.15 + index * 0.06,
+                    ease: "easeOut",
+                  }}
+                >
+                  {child}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

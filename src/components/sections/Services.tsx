@@ -40,7 +40,7 @@ const services = [
     features: ["Facebook Ads", "Instagram Marketing", "LinkedIn Outreach"],
     category: "marketing",
     image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
+      "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&q=80",
     stats: { value: "300%", label: "Avg. ROI" },
     gridClass: "md:col-span-2 md:row-span-2",
   },
@@ -123,7 +123,7 @@ const services = [
     category: "marketing",
     image:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80",
-    stats: { value: "10M+", label: "Leads Generated" },
+    stats: { value: "77k+", label: "Leads Generated" },
     gridClass: "md:col-span-2 md:row-span-1",
   },
 ];
