@@ -9,19 +9,19 @@ import Image from "next/image";
 
 // Brokerage logos for the marquee
 const brokerageLogos = [
-  { name: "Partner 1", logo: "/logos/1.png", scale: 1 },
-  { name: "Partner 2", logo: "/logos/2.png", scale: 1 },
-  { name: "Partner 3", logo: "/logos/3.png", scale: 1 },
-  { name: "Partner 4", logo: "/logos/4.png", scale: 1 },
-  { name: "Partner 5", logo: "/logos/5.png", scale: 1 },
-  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3 },
-  { name: "Partner 7", logo: "/logos/7.png", scale: 1.2 },
-  { name: "Partner 8", logo: "/logos/8.png", scale: 1 },
-  { name: "Partner 9", logo: "/logos/9.png", scale: 1.1 },
-  { name: "Partner 10", logo: "/logos/10.png", scale: 1.3 },
-  { name: "Partner 11", logo: "/logos/11.png", scale: 1.3 },
-  { name: "Partner 12", logo: "/logos/12.png", scale: 1.1 },
-  { name: "Partner 13", logo: "/logos/13.png", scale: 1 },
+  { name: "Partner 1", logo: "/logos/1.png", scale: 1, keepColor: false },
+  { name: "Partner 2", logo: "/logos/2.png", scale: 1, keepColor: false },
+  { name: "Zillow", logo: "/logos/33.png", scale: 1, keepColor: true },
+  { name: "Partner 4", logo: "/logos/4.png", scale: 1, keepColor: false },
+  { name: "Partner 5", logo: "/logos/5.png", scale: 1, keepColor: false },
+  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3, keepColor: false },
+  { name: "Partner 7", logo: "/logos/7.png", scale: 1.2, keepColor: false },
+  { name: "Partner 8", logo: "/logos/8.png", scale: 1, keepColor: false },
+  { name: "Partner 9", logo: "/logos/9.png", scale: 1.1, keepColor: false },
+  { name: "Partner 10", logo: "/logos/10.png", scale: 1.3, keepColor: false },
+  { name: "Partner 11", logo: "/logos/11.png", scale: 1.3, keepColor: false },
+  { name: "Partner 12", logo: "/logos/12.png", scale: 1.1, keepColor: false },
+  { name: "Partner 13", logo: "/logos/13.png", scale: 1, keepColor: false },
 ];
 
 export default function Hero() {
@@ -158,14 +158,14 @@ export default function Hero() {
                 {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
                   <div
                     key={idx}
-                    className="relative h-10 w-32 mx-3 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                    className="relative h-12 w-36 mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                   >
                     <Image
                       src={brokerage.logo}
                       alt={brokerage.name}
                       fill
-                      className="object-contain brightness-0 invert"
-                      sizes="140px"
+                      className={`object-contain ${brokerage.keepColor ? "" : "[filter:brightness(0)_invert(1)]"}`}
+                      sizes="150px"
                       style={{ transform: `scale(${brokerage.scale})` }}
                     />
                   </div>
@@ -176,8 +176,8 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Bottom border accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d5b367]/30 to-transparent z-20" />
+      {/* Bottom gradient fade for seamless transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#161616] to-transparent z-20 pointer-events-none" />
     </section>
   );
 }

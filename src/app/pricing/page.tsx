@@ -47,14 +47,19 @@ import siteConfig from "@/config/site.json";
 
 // Logo data for marquee
 const brokerageLogos = [
-  { name: "Partner 1", logo: "/logos/1.png", scale: 1 },
-  { name: "Partner 2", logo: "/logos/2.png", scale: 1 },
-  { name: "Partner 3", logo: "/logos/3.png", scale: 1 },
-  { name: "Partner 4", logo: "/logos/4.png", scale: 1 },
-  { name: "Partner 5", logo: "/logos/5.png", scale: 1 },
-  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3 },
-  { name: "Partner 7", logo: "/logos/7.png", scale: 1.2 },
-  { name: "Partner 8", logo: "/logos/8.png", scale: 1 },
+  { name: "Partner 1", logo: "/logos/1.png", scale: 1, keepColor: false },
+  { name: "Partner 2", logo: "/logos/2.png", scale: 1, keepColor: false },
+  { name: "Zillow", logo: "/logos/33.png", scale: 1, keepColor: true },
+  { name: "Partner 4", logo: "/logos/4.png", scale: 1, keepColor: false },
+  { name: "Partner 5", logo: "/logos/5.png", scale: 1, keepColor: false },
+  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3, keepColor: false },
+  { name: "Partner 7", logo: "/logos/7.png", scale: 1.2, keepColor: false },
+  { name: "Partner 8", logo: "/logos/8.png", scale: 1, keepColor: false },
+  { name: "Partner 9", logo: "/logos/9.png", scale: 1.1, keepColor: false },
+  { name: "Partner 10", logo: "/logos/10.png", scale: 1.3, keepColor: false },
+  { name: "Partner 11", logo: "/logos/11.png", scale: 1.3, keepColor: false },
+  { name: "Partner 12", logo: "/logos/12.png", scale: 1.1, keepColor: false },
+  { name: "Partner 13", logo: "/logos/13.png", scale: 1, keepColor: false },
 ];
 
 // Why choose us features
@@ -141,6 +146,22 @@ const comparisonRows = [
   { feature: "Customized Advertising Campaigns", marketlyn: true, competitor1: false, competitor2: "Available at an extra cost" },
 ];
 
+// CRM Add-on pricing
+const crmAddon = {
+  name: "CRM Add-on",
+  originalPrice: "$297",
+  discountedPrice: "$197",
+  period: "/one-time",
+  description: "Full GoHighLevel CRM access",
+  features: [
+    "Unlimited Contacts",
+    "Email & SMS Marketing",
+    "Appointment Scheduling",
+    "Pipeline Management",
+    "Automated Follow-ups",
+  ],
+};
+
 // Solo pricing plans
 const soloPlans = [
   {
@@ -157,6 +178,7 @@ const soloPlans = [
       "Email Marketing",
     ],
     popular: false,
+    crmOption: "addon", // addon = can add CRM for extra cost
   },
   {
     name: "Growth",
@@ -173,6 +195,7 @@ const soloPlans = [
       "Priority Support",
     ],
     popular: true,
+    crmOption: "addon", // addon = can add CRM for extra cost
   },
   {
     name: "Premium",
@@ -187,8 +210,10 @@ const soloPlans = [
       "Live Transfers",
       "Exclusive Scheduled Appointments",
       "Dedicated Support Manager",
+      "FREE CRM Included",
     ],
     popular: false,
+    crmOption: "included", // included = CRM is free with this plan
   },
 ];
 
@@ -428,14 +453,14 @@ export default function PricingPage() {
               {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
                 <div
                   key={idx}
-                  className="relative h-10 w-32 opacity-60 hover:opacity-90 transition-opacity flex-shrink-0"
+                  className="relative h-12 w-36 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                 >
                   <Image
                     src={brokerage.logo}
                     alt={brokerage.name}
                     fill
-                    className="object-contain brightness-0 invert"
-                    sizes="160px"
+                    className={`object-contain ${brokerage.keepColor ? "" : "[filter:brightness(0)_invert(1)]"}`}
+                    sizes="150px"
                     style={{ transform: `scale(${brokerage.scale})` }}
                   />
                 </div>
@@ -812,11 +837,52 @@ export default function PricingPage() {
                       {plan.features.map((feature, featureIdx) => (
                         <li key={featureIdx} className="flex items-start gap-3">
                           <IconCheck className="w-5 h-5 text-[#d5b367] flex-shrink-0 mt-0.5" />
-                          <span className="text-sm text-white/70">{feature}</span>
+                          <span className={`text-sm ${feature.includes("FREE CRM") ? "text-[#d5b367] font-medium" : "text-white/70"}`}>{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
+
+                  {/* CRM Add-on Section */}
+                  {planType === "solo" && (plan as typeof soloPlans[0]).crmOption === "addon" && (
+                    <div className="mt-6 pt-6 border-t border-white/10">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <IconDeviceMobile className="w-5 h-5 text-[#d5b367]" />
+                          <span className="text-sm font-medium text-white">Add CRM</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-white/40 line-through">{crmAddon.originalPrice}</span>
+                          <span className="text-sm font-bold text-[#d5b367]">{crmAddon.discountedPrice}</span>
+                        </div>
+                      </div>
+                      <p className="text-xs text-white/50 mb-3">
+                        Full GoHighLevel CRM access with unlimited contacts, automation & more.
+                      </p>
+                      <a
+                        href="/contact"
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium bg-[#d5b367]/10 text-[#d5b367] border border-[#d5b367]/30 hover:bg-[#d5b367]/20 transition-all"
+                      >
+                        Add CRM to this plan
+                        <IconArrowUpRight className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
+
+                  {/* CRM Included Badge for Premium */}
+                  {planType === "solo" && (plan as typeof soloPlans[0]).crmOption === "included" && (
+                    <div className="mt-6 pt-6 border-t border-[#d5b367]/20">
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-[#d5b367]/10 border border-[#d5b367]/30">
+                        <div className="w-10 h-10 rounded-lg bg-[#d5b367]/20 flex items-center justify-center flex-shrink-0">
+                          <IconDeviceMobile className="w-5 h-5 text-[#d5b367]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-[#d5b367]">CRM Included Free!</p>
+                          <p className="text-xs text-white/50">$297 value included at no extra cost</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </motion.div>

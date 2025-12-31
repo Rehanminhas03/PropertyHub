@@ -112,7 +112,7 @@ export default function AboutUs() {
       <div
         className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
         style={{
-          background: "linear-gradient(to top, transparent 0%, #161616 100%)",
+          background: "linear-gradient(to bottom, #161616 0%, transparent 100%)",
         }}
       />
 
