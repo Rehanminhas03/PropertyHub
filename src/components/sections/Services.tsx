@@ -19,7 +19,6 @@ import {
   IconRobot,
   IconBrandInstagram,
   IconPhone,
-  IconArrowRight,
 } from "@tabler/icons-react";
 import Image from "next/image";
 
@@ -265,17 +264,6 @@ function ServiceCard({
           ))}
         </div>
 
-        {/* Arrow indicator on hover */}
-        <motion.div
-          className={`absolute ${isLarge ? "bottom-6 right-6" : "bottom-4 right-4"}`}
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -10 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="w-8 h-8 rounded-full bg-[#d5b367] flex items-center justify-center">
-            <IconArrowRight className="w-4 h-4 text-[#161616]" />
-          </div>
-        </motion.div>
       </div>
     </motion.div>
   );

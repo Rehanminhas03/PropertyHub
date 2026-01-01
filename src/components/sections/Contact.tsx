@@ -110,6 +110,25 @@ export default function Contact() {
                 Book a Free Call
               </MagneticButton>
             </motion.div>
+
+            {/* Email */}
+            <motion.div
+              className="mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <p className="text-white/50 text-sm mb-2">Or email us directly at</p>
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="inline-flex items-center gap-2 text-[#d5b367] hover:text-[#c9a555] transition-colors text-lg"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                {siteConfig.email}
+              </a>
+            </motion.div>
           </div>
         </div>
       </div>

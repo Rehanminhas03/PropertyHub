@@ -2,38 +2,23 @@
 
 import Link from "next/link";
 import siteConfig from "@/config/site.json";
-import {
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconBrandLinkedin,
-  IconBrandTwitter,
-} from "@tabler/icons-react";
 
 const footerLinks = {
   company: [
     { name: "About Us", href: "#about-us" },
     { name: "Services", href: "#services" },
-    { name: "Testimonials", href: "#testimonials" },
+    { name: "Pricing", href: "/pricing" },
     { name: "Contact", href: "/contact" },
   ],
   resources: [
     { name: "FAQ", href: "#faq" },
-    { name: "Blog", href: "/blog" },
-    { name: "Case Studies", href: "/case-studies" },
-    { name: "Free Resources", href: "/resources" },
+    { name: "CRM", href: "#crm" },
   ],
   legal: [
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
   ],
 };
-
-const socialLinks = [
-  { icon: IconBrandFacebook, href: "#", label: "Facebook" },
-  { icon: IconBrandInstagram, href: "#", label: "Instagram" },
-  { icon: IconBrandLinkedin, href: "#", label: "LinkedIn" },
-  { icon: IconBrandTwitter, href: "#", label: "Twitter" },
-];
 
 export default function Footer() {
   return (
@@ -48,19 +33,15 @@ export default function Footer() {
             <p className="mt-4 text-sm text-white/50 leading-relaxed">
               {siteConfig.description}
             </p>
-            {/* Social Links */}
-            <div className="flex gap-3 mt-6">
-              {socialLinks.map((social, idx) => (
-                <a
-                  key={idx}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-[#d5b367]/10 flex items-center justify-center text-white/50 hover:bg-[#d5b367]/20 hover:text-[#d5b367] transition-colors"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="mt-4 inline-flex items-center gap-2 text-sm text-[#d5b367] hover:text-[#c9a555] transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              {siteConfig.email}
+            </a>
           </div>
 
           {/* Company Links */}

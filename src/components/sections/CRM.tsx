@@ -42,6 +42,8 @@ import {
   IconArrowRight,
   IconStar,
   IconX,
+  IconBrandApple,
+  IconBrandGooglePlay,
 } from "@tabler/icons-react";
 import siteConfig from "@/config/site.json";
 
@@ -609,7 +611,7 @@ export default function CRM() {
               The full power of your CRM in your pocket. Respond to leads instantly, manage appointments,
               and close deals on the go with our mobile app for iOS and Android.
             </p>
-            <ul className="space-y-3">
+            <ul className="space-y-3 mb-8">
               {[
                 "Instant push notifications for new leads",
                 "Reply to texts, emails & calls in one app",
@@ -623,6 +625,39 @@ export default function CRM() {
                 </li>
               ))}
             </ul>
+
+            {/* App Store Buttons */}
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="https://apps.apple.com/us/app/highlevel/id1425004076"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-black border border-white/20 hover:bg-black/80 transition-all group"
+              >
+                <IconBrandApple className="w-7 h-7 text-white" />
+                <div className="text-left">
+                  <p className="text-[10px] text-white/70 leading-none">Download on the</p>
+                  <p className="text-sm font-semibold text-white">App Store</p>
+                </div>
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.gohighlevel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-black border border-white/20 hover:bg-black/80 transition-all group"
+              >
+                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+                  <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z" fill="#00D7FE"/>
+                  <path d="M17.556 8.236L14.85 10.94l-1.058-1.06 2.706-2.702.058.058 1 .5.5.5.5.5z" fill="#00F076"/>
+                  <path d="M20.609 10.5L17.556 8.236l-2.706 2.704L17.556 13.644l3.053-2.264a1 1 0 000-1.88z" fill="#FFCB00"/>
+                  <path d="M3.609 22.186L14.85 12.94l2.706 2.704-12.947 7.462a1 1 0 01-1-.92z" fill="#F93646"/>
+                </svg>
+                <div className="text-left">
+                  <p className="text-[10px] text-white/70 leading-none">Get it on</p>
+                  <p className="text-sm font-semibold text-white">Google Play</p>
+                </div>
+              </a>
+            </div>
           </div>
           <div className="relative">
             <div className="aspect-[3/4] max-w-[280px] mx-auto rounded-3xl bg-gradient-to-b from-white/10 to-white/5 border border-white/20 p-3">

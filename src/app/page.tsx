@@ -2,7 +2,8 @@ import NavbarDemo from "@/components/Navbar";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import Hero from "@/components/sections/Hero";
 import AboutUs from "@/components/sections/AboutUs";
-import Stats from "@/components/sections/Stats";
+import StatsCounter from "@/components/sections/StatsCounter";
+import HowItWorks from "@/components/sections/Stats";
 import Benefits from "@/components/sections/Benefits";
 import Services from "@/components/sections/Services";
 // import Testimonials from "@/components/sections/Testimonials";
@@ -18,7 +19,8 @@ export default function Home() {
       <NavbarDemo />
       <Hero />
       <AboutUs />
-      <Stats />
+      <StatsCounter />
+      <HowItWorks />
       <Benefits />
       <Services />
       {/* <Testimonials /> */}
