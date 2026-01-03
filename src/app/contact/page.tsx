@@ -28,11 +28,73 @@ const MONTHS = [
   "July", "August", "September", "October", "November", "December"
 ];
 
-const timeSlots = [
-  "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-  "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
-  "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM"
+// Business hours in Central Time (CT) - 9 AM to 5 PM
+const BUSINESS_TIMEZONE = "America/Chicago"; // Central Time
+const businessHoursCT = [
+  { hour: 9, minute: 0 },
+  { hour: 9, minute: 30 },
+  { hour: 10, minute: 0 },
+  { hour: 10, minute: 30 },
+  { hour: 11, minute: 0 },
+  { hour: 11, minute: 30 },
+  { hour: 12, minute: 0 },
+  { hour: 12, minute: 30 },
+  { hour: 13, minute: 0 },
+  { hour: 13, minute: 30 },
+  { hour: 14, minute: 0 },
+  { hour: 14, minute: 30 },
+  { hour: 15, minute: 0 },
+  { hour: 15, minute: 30 },
+  { hour: 16, minute: 0 },
+  { hour: 16, minute: 30 },
+  { hour: 17, minute: 0 },
 ];
+
+// Convert Central Time to user's local timezone
+const convertCTToLocal = (hour: number, minute: number, date: Date): Date => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // Calculate offset difference between Central Time and user's local timezone
+  const testDate = new Date(`${year}-${month}-${day}T12:00:00Z`);
+  const ctOffset = new Date(testDate.toLocaleString('en-US', { timeZone: BUSINESS_TIMEZONE })).getTime() - testDate.getTime();
+  const localOffset = new Date(testDate.toLocaleString('en-US')).getTime() - testDate.getTime();
+  const diffMs = localOffset - ctOffset;
+
+  // Apply the offset difference to get local time
+  const resultDate = new Date(date);
+  resultDate.setHours(hour, minute, 0, 0);
+  resultDate.setTime(resultDate.getTime() + diffMs);
+
+  return resultDate;
+};
+
+// Format time for display in user's local timezone
+const formatLocalTime = (hour: number, minute: number, date: Date): string => {
+  const localDate = convertCTToLocal(hour, minute, date);
+  return localDate.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
+
+// Get user's timezone abbreviation
+const getUserTimezoneAbbr = (): string => {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const date = new Date();
+  const tzAbbr = date.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop() || '';
+  return tzAbbr;
+};
+
+// Format time in Central Time for submission
+const formatCTTime = (hour: number, minute: number): string => {
+  const period = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+  const displayMinute = String(minute).padStart(2, '0');
+  return `${displayHour}:${displayMinute} ${period} CT`;
+};
 
 const subjectOptions = [
   "Social Media Marketing",
@@ -61,7 +123,7 @@ export default function ContactPage() {
   // Calendar booking state
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<{ hour: number; minute: number } | null>(null);
   const [bookingStep, setBookingStep] = useState(1); // 1: Calendar, 2: Time, 3: Form
   const [bookingComplete, setBookingComplete] = useState(false);
   const [bookingError, setBookingError] = useState("");
@@ -135,9 +197,21 @@ export default function ContactPage() {
     }
   };
 
-  const handleTimeSelect = (time: string) => {
-    setSelectedTime(time);
+  const handleTimeSelect = (slot: { hour: number; minute: number }) => {
+    setSelectedTimeSlot(slot);
     setBookingStep(3);
+  };
+
+  // Get display time in user's local timezone
+  const getDisplayTime = (slot: { hour: number; minute: number } | null): string => {
+    if (!slot || !selectedDate) return "";
+    return `${formatLocalTime(slot.hour, slot.minute, selectedDate)} ${getUserTimezoneAbbr()}`;
+  };
+
+  // Get time in CT for submission
+  const getCTTime = (slot: { hour: number; minute: number } | null): string => {
+    if (!slot) return "";
+    return formatCTTime(slot.hour, slot.minute);
   };
 
   const handleBookingFormChange = (
@@ -154,10 +228,13 @@ export default function ContactPage() {
 
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedDate || !selectedTime) return;
+    if (!selectedDate || !selectedTimeSlot) return;
 
     setIsBookingSubmitting(true);
     setBookingError("");
+
+    const localTimeDisplay = getDisplayTime(selectedTimeSlot);
+    const ctTimeDisplay = getCTTime(selectedTimeSlot);
 
     try {
       const response = await fetch("/api/contact", {
@@ -168,7 +245,7 @@ export default function ContactPage() {
           email: bookingForm.email,
           phone: bookingForm.phone,
           company: bookingForm.interest,
-          message: `Discovery Call Booking\n\nDate: ${formatDate(selectedDate)}\nTime: ${selectedTime}\n\nInterest: ${bookingForm.interest}\n\nQuestion: ${bookingForm.question || "No question provided"}`,
+          message: `Discovery Call Booking\n\nDate: ${formatDate(selectedDate)}\nTime: ${ctTimeDisplay} (Client's local time: ${localTimeDisplay})\nClient Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n\nInterest: ${bookingForm.interest}\n\nQuestion: ${bookingForm.question || "No question provided"}`,
         }),
       });
 
@@ -244,7 +321,7 @@ export default function ContactPage() {
   const resetBooking = () => {
     setBookingComplete(false);
     setSelectedDate(null);
-    setSelectedTime(null);
+    setSelectedTimeSlot(null);
     setBookingStep(1);
     setBookingForm({
       firstName: "", lastName: "", phone: "", email: "",
@@ -303,7 +380,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {bookingComplete && selectedDate && selectedTime ? (
+              {bookingComplete && selectedDate && selectedTimeSlot ? (
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center">
                   <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
                     <IconCheck className="w-10 h-10 text-green-500" />
@@ -314,7 +391,7 @@ export default function ContactPage() {
                     <IconCalendarEvent className="w-6 h-6 text-[#d5b367]" />
                     <div className="text-left">
                       <p className="text-white font-medium">{formatDate(selectedDate)}</p>
-                      <p className="text-white/60 text-sm">{selectedTime} (15 minutes)</p>
+                      <p className="text-white/60 text-sm">{getDisplayTime(selectedTimeSlot)} (15 minutes)</p>
                     </div>
                   </div>
                   <button
@@ -350,15 +427,15 @@ export default function ContactPage() {
                         <span className="text-white/70">{formatDate(selectedDate)}</span>
                       </div>
                     )}
-                    {selectedTime && (
+                    {selectedTimeSlot && selectedDate && (
                       <div className="flex items-center gap-3 text-sm">
                         <IconClock className="w-4 h-4 text-white/40" />
-                        <span className="text-white/70">{selectedTime}</span>
+                        <span className="text-white/70">{getDisplayTime(selectedTimeSlot)}</span>
                       </div>
                     )}
                     <div className="flex items-center gap-3 text-sm">
                       <IconWorld className="w-4 h-4 text-white/40" />
-                      <span className="text-white/70">Your Local Timezone</span>
+                      <span className="text-white/70">{Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
                     </div>
                     <p className="text-white/50 text-sm pt-2 border-t border-white/10">
                       Discover How Leveraging AI Can Significantly Boost Your Presence & Drive Results...
@@ -474,27 +551,34 @@ export default function ContactPage() {
                         <IconChevronLeft className="w-4 h-4" />
                         Back to calendar
                       </button>
-                      <h3 className="text-white font-medium mb-4">Select a time</h3>
+                      <h3 className="text-white font-medium mb-2">Select a time</h3>
+                      <p className="text-white/50 text-xs mb-4">
+                        Times shown in your timezone ({getUserTimezoneAbbr()})
+                      </p>
                       <div className="grid grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-2">
-                        {timeSlots.map((time) => (
-                          <button
-                            key={time}
-                            onClick={() => handleTimeSelect(time)}
-                            className={`py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
-                              selectedTime === time
-                                ? "bg-[#d5b367] text-[#161616]"
-                                : "bg-white/5 border border-white/10 text-white hover:border-[#d5b367]/50 hover:bg-[#d5b367]/10"
-                            }`}
-                          >
-                            {time}
-                          </button>
-                        ))}
+                        {businessHoursCT.map((slot, idx) => {
+                          const isSelected = selectedTimeSlot?.hour === slot.hour && selectedTimeSlot?.minute === slot.minute;
+                          const displayTime = formatLocalTime(slot.hour, slot.minute, selectedDate);
+                          return (
+                            <button
+                              key={idx}
+                              onClick={() => handleTimeSelect(slot)}
+                              className={`py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
+                                isSelected
+                                  ? "bg-[#d5b367] text-[#161616]"
+                                  : "bg-white/5 border border-white/10 text-white hover:border-[#d5b367]/50 hover:bg-[#d5b367]/10"
+                              }`}
+                            >
+                              {displayTime}
+                            </button>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
 
                   {/* Step 3: Booking Form */}
-                  {bookingStep === 3 && selectedDate && selectedTime && (
+                  {bookingStep === 3 && selectedDate && selectedTimeSlot && (
                     <div>
                       <button
                         onClick={() => setBookingStep(2)}
@@ -801,18 +885,40 @@ export default function ContactPage() {
                     </Link>
                   </div>
 
-                  {/* Direct Email Option */}
-                  <div className="text-center pt-4 border-t border-white/10 mt-4">
-                    <p className="text-white/40 text-sm mb-2">Or email us directly at</p>
-                    <a
-                      href={`mailto:${siteConfig.email}`}
-                      className="inline-flex items-center gap-2 text-[#d5b367] hover:text-[#c9a555] transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  {/* Direct Contact Options */}
+                  <div className="pt-4 border-t border-white/10 mt-4">
+                    <p className="text-white/40 text-sm mb-4 text-center">Or contact us directly</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <a
+                        href={`tel:${siteConfig.phone?.replace(/[^+\d]/g, '')}`}
+                        className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-[#d5b367] hover:bg-white/10 hover:border-[#d5b367]/30 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        <span className="text-sm">{siteConfig.phone}</span>
+                      </a>
+                      <a
+                        href={`mailto:${siteConfig.email}`}
+                        className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-[#d5b367] hover:bg-white/10 hover:border-[#d5b367]/30 transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm">{siteConfig.email}</span>
+                      </a>
+                    </div>
+
+                    {/* Address */}
+                    <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/50">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      {siteConfig.email}
-                    </a>
+                      <span>
+                        {siteConfig.address?.street}, {siteConfig.address?.city}, {siteConfig.address?.state} {siteConfig.address?.zip}
+                      </span>
+                    </div>
                   </div>
                 </form>
               )}

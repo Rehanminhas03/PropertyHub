@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import MagneticButton from "@/components/ui/magnetic-button";
@@ -26,6 +26,15 @@ const brokerageLogos = [
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -126,7 +135,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <MagneticButton variant="primary" href="/contact">
+              <MagneticButton variant="primary" href="/pricing">
                 Get Started
               </MagneticButton>
               <MagneticButton variant="secondary" href="#services">
@@ -143,7 +152,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
         >
-          <div className="w-[60%] mx-auto">
+          <div className="w-full md:w-[60%] mx-auto px-0">
             <p className="text-sm text-white/50 font-semibold text-center mb-8 uppercase tracking-widest">
               Trusted by agents at leading brokerages
             </p>
@@ -153,19 +162,19 @@ export default function Hero() {
               <motion.div
                 className="flex items-center"
                 animate={{ x: ["0%", "-50%"] }}
-                transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+                transition={{ duration: isMobile ? 8 : 10, ease: "linear", repeat: Infinity }}
               >
                 {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
                   <div
                     key={idx}
-                    className="relative h-12 w-36 mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                    className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                   >
                     <Image
                       src={brokerage.logo}
                       alt={brokerage.name}
                       fill
                       className={`object-contain ${brokerage.keepColor ? "" : "[filter:brightness(0)_invert(1)]"}`}
-                      sizes="150px"
+                      sizes="(max-width: 768px) 96px, 150px"
                       style={{ transform: `scale(${brokerage.scale})` }}
                     />
                   </div>

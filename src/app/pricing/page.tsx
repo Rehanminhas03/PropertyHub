@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavbarDemo from "@/components/Navbar";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import Footer from "@/components/sections/Footer";
@@ -399,6 +399,14 @@ export default function PricingPage() {
   const [openAccordion, setOpenAccordion] = useState<number>(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const currentPlans = planType === "solo" ? soloPlans : teamPlans;
 
@@ -443,24 +451,24 @@ export default function PricingPage() {
         </section>
 
         {/* Section 2: Logo Marquee */}
-        <section className="relative z-10 w-[60%] mx-auto mb-24">
-          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]">
+        <section className="relative z-10 w-full md:w-[60%] mx-auto mb-24 px-0">
+          <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
             <motion.div
-              className="flex items-center gap-10"
+              className="flex items-center"
               animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 18, ease: "linear", repeat: Infinity }}
+              transition={{ duration: isMobile ? 8 : 10, ease: "linear", repeat: Infinity }}
             >
               {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
                 <div
                   key={idx}
-                  className="relative h-12 w-36 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                  className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                 >
                   <Image
                     src={brokerage.logo}
                     alt={brokerage.name}
                     fill
                     className={`object-contain ${brokerage.keepColor ? "" : "[filter:brightness(0)_invert(1)]"}`}
-                    sizes="150px"
+                    sizes="(max-width: 768px) 96px, 150px"
                     style={{ transform: `scale(${brokerage.scale})` }}
                   />
                 </div>
@@ -751,28 +759,35 @@ export default function PricingPage() {
               Choose a plan that fits your business needs
             </p>
 
-            {/* Solo/Team Toggle */}
-            <div className="mt-8 inline-flex items-center gap-4 bg-white/5 rounded-full p-1">
-              <button
-                onClick={() => setPlanType("solo")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                  planType === "solo"
-                    ? "bg-[#d5b367] text-[#161616]"
-                    : "text-white/60 hover:text-white"
+            {/* Solo/Team Toggle Switch */}
+            <div className="mt-8 inline-flex items-center gap-5">
+              <span
+                className={`text-lg font-bold transition-all cursor-pointer ${
+                  planType === "solo" ? "text-white scale-105" : "text-white/40 hover:text-white/60"
                 }`}
+                onClick={() => setPlanType("solo")}
               >
                 Solo
-              </button>
+              </span>
               <button
-                onClick={() => setPlanType("team")}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                  planType === "team"
-                    ? "bg-[#d5b367] text-[#161616]"
-                    : "text-white/60 hover:text-white"
+                onClick={() => setPlanType(planType === "solo" ? "team" : "solo")}
+                className="relative w-16 h-8 rounded-full bg-[#d5b367] p-1 transition-colors focus:outline-none focus:ring-2 focus:ring-[#d5b367]/50"
+                aria-label="Toggle between Solo and Team plans"
+              >
+                <motion.div
+                  className="w-6 h-6 rounded-full bg-[#161616] shadow-md"
+                  animate={{ x: planType === "team" ? 32 : 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              </button>
+              <span
+                className={`text-lg font-bold transition-all cursor-pointer ${
+                  planType === "team" ? "text-white scale-105" : "text-white/40 hover:text-white/60"
                 }`}
+                onClick={() => setPlanType("team")}
               >
                 Team
-              </button>
+              </span>
             </div>
           </motion.div>
 
@@ -1046,9 +1061,9 @@ export default function PricingPage() {
                 ))}
               </div>
               <div className="p-4 rounded-xl bg-[#d5b367]/20 text-center">
-                <p className="text-xs text-white/60 mb-1">Included with Team Ultra plan</p>
+                <p className="text-xs text-white/60 mb-1">Included with premium and Team plans</p>
                 <p className="text-2xl font-bold text-white">FREE CRM</p>
-                <p className="text-xs text-[#d5b367] mt-1">$97/mo value included</p>
+                <p className="text-xs text-[#d5b367] mt-1">$197/mo value included</p>
               </div>
             </div>
           </motion.div>

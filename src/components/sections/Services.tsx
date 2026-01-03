@@ -404,7 +404,7 @@ export default function Services() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <MagneticButton variant="primary" href="/contact">
+          <MagneticButton variant="primary" href="/pricing">
             Get Started Today
           </MagneticButton>
         </motion.div>

@@ -5,7 +5,7 @@ import { useRef, useEffect, useState } from "react";
 
 const stats = [
   {
-    value: 3,
+    value: 2,
     suffix: "+",
     label: "Years in business",
   },
@@ -20,7 +20,7 @@ const stats = [
     label: "Agents served",
   },
   {
-    value: 12000,
+    value: 16000,
     suffix: "+",
     label: "Leads generated",
     formatNumber: true,
