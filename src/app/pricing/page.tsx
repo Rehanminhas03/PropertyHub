@@ -453,14 +453,11 @@ export default function PricingPage() {
         {/* Section 2: Logo Marquee */}
         <section className="relative z-10 w-full md:w-[60%] mx-auto mb-24 px-0">
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_10%,black_90%,transparent_100%)]">
-            <motion.div
-              className="flex items-center"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: isMobile ? 8 : 10, ease: "linear", repeat: Infinity }}
-            >
-              {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
+            <div className="flex w-max animate-marquee">
+              {/* First set of logos */}
+              {brokerageLogos.map((brokerage, idx) => (
                 <div
-                  key={idx}
+                  key={`first-${idx}`}
                   className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                 >
                   <Image
@@ -473,7 +470,23 @@ export default function PricingPage() {
                   />
                 </div>
               ))}
-            </motion.div>
+              {/* Duplicate set for seamless loop */}
+              {brokerageLogos.map((brokerage, idx) => (
+                <div
+                  key={`second-${idx}`}
+                  className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                >
+                  <Image
+                    src={brokerage.logo}
+                    alt={brokerage.name}
+                    fill
+                    className={`object-contain ${brokerage.keepColor ? "" : "[filter:brightness(0)_invert(1)]"}`}
+                    sizes="(max-width: 768px) 96px, 150px"
+                    style={{ transform: `scale(${brokerage.scale})` }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 

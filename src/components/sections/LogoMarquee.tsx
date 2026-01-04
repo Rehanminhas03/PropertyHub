@@ -37,14 +37,11 @@ export default function LogoMarqueeSection() {
 
         {/* Logo Images Marquee */}
         <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]">
-          <motion.div
-            className="flex items-center"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 18, ease: "linear", repeat: Infinity }}
-          >
-            {[...brokerageLogos, ...brokerageLogos].map((brokerage, idx) => (
+          <div className="flex w-max animate-marquee">
+            {/* First set of logos */}
+            {brokerageLogos.map((brokerage, idx) => (
               <div
-                key={idx}
+                key={`first-${idx}`}
                 className="relative h-10 w-32 mx-5 opacity-60 hover:opacity-90 transition-opacity flex-shrink-0"
               >
                 <Image
@@ -57,7 +54,23 @@ export default function LogoMarqueeSection() {
                 />
               </div>
             ))}
-          </motion.div>
+            {/* Duplicate set for seamless loop */}
+            {brokerageLogos.map((brokerage, idx) => (
+              <div
+                key={`second-${idx}`}
+                className="relative h-10 w-32 mx-5 opacity-60 hover:opacity-90 transition-opacity flex-shrink-0"
+              >
+                <Image
+                  src={brokerage.logo}
+                  alt={brokerage.name}
+                  fill
+                  className="object-contain brightness-0 invert"
+                  sizes="160px"
+                  style={{ transform: `scale(${brokerage.scale})` }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </motion.div>
     </section>
