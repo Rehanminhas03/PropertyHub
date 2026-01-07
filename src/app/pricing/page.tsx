@@ -6,7 +6,7 @@ import NavbarDemo from "@/components/Navbar";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import Footer from "@/components/sections/Footer";
 import { Badge } from "@/components/ui/badge";
-import { Spotlight, SpotlightCard } from "@/components/ui/spotlight";
+import { SpotlightCard } from "@/components/ui/spotlight";
 import MagneticButton from "@/components/ui/magnetic-button";
 import Image from "next/image";
 import {
@@ -52,7 +52,7 @@ const brokerageLogos = [
   { name: "Zillow", logo: "/logos/33.png", scale: 1, keepColor: true },
   { name: "Partner 4", logo: "/logos/4.png", scale: 1, keepColor: false },
   { name: "Partner 5", logo: "/logos/5.png", scale: 1, keepColor: false },
-  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3, keepColor: false },
+  { name: "Partner 6", logo: "/logos/6.png", scale: 1.1, keepColor: false },
   { name: "Partner 7", logo: "/logos/7.png", scale: 1.2, keepColor: false },
   { name: "Partner 8", logo: "/logos/8.png", scale: 1, keepColor: false },
   { name: "Partner 9", logo: "/logos/9.png", scale: 1.1, keepColor: false },
@@ -165,11 +165,14 @@ const crmAddon = {
 // Solo pricing plans
 const soloPlans = [
   {
-    name: "Starter",
+    name: "Dealflow",
     icon: IconRocket,
-    price: "",
-    period: "/yr",
-    description: "Kickstart your lead generation with essential campaigns.",
+    iconColor: "text-blue-400",
+    price: "$399",
+    originalPrice: "",
+    period: "/one-time",
+    tagline: "A steady stream of qualified conversations.",
+    bestFor: "Solo agents and newer realtors who want predictable lead flow without complexity.",
     features: [
       "15% Referral Fee",
       "2-3 Exclusive Referrals/month",
@@ -177,32 +180,40 @@ const soloPlans = [
       "BDR - Verified",
       "Email Marketing",
     ],
-    popular: false,
-    crmOption: "addon", // addon = can add CRM for extra cost
+    tag: "Starter",
+    tagColor: "bg-blue-500",
+    crmOption: "addon",
   },
   {
-    name: "Growth",
+    name: "MarketEdge",
     icon: IconBolt,
-    price: "$675",
+    iconColor: "text-yellow-400",
+    price: "$799",
+    originalPrice: "$897",
     period: "/one-time",
-    description: "Boost your pipeline with advanced lead strategies.",
+    tagline: "Be the agent prospects see first and speak to first.",
+    bestFor: "Agents ready to move from average exposure to local dominance.",
     features: [
       "15% Referral Fee",
       "3-5 Exclusive Referrals/month",
-      "5 Zip Codes/Areas",
+      "5-7 Zip Codes/Areas",
       "BDR - Verified",
       "Email Marketing",
       "Priority Support",
     ],
-    popular: true,
-    crmOption: "addon", // addon = can add CRM for extra cost
+    tag: "Most Popular",
+    tagColor: "bg-[#d5b367]",
+    crmOption: "addon",
   },
   {
-    name: "Premium",
+    name: "ClosePoint",
     icon: IconDiamond,
-    price: "$975",
+    iconColor: "text-emerald-400",
+    price: "$1,495",
+    originalPrice: "$1,695",
     period: "/one-time",
-    description: "Maximize results with full-service lead generation.",
+    tagline: "Designed for agents who expect efficiency.",
+    bestFor: "High performers who want leads closer to decision-making.",
     features: [
       "10% Referral Fee",
       "4-6 Exclusive Referrals/month",
@@ -212,55 +223,66 @@ const soloPlans = [
       "Dedicated Support Manager",
       "FREE CRM Included",
     ],
-    popular: false,
-    crmOption: "included", // included = CRM is free with this plan
+    tag: "Best Results",
+    tagColor: "bg-emerald-500",
+    crmOption: "included",
   },
 ];
 
 // Team pricing plans
 const teamPlans = [
   {
-    name: "Team",
+    name: "Core",
     icon: IconUsersGroup,
-    price: "",
+    iconColor: "text-purple-400",
+    price: "$2,695",
+    originalPrice: "",
     period: "/one-time",
-    description: "Tailored campaigns to fuel small team success.",
-    features: [
-      "10% Referral Fee",
-      "Up to 3 Agents",
-      "2-4 Exclusive Referrals/month To Every Agent",
-      "Zip Codes/Counties/Cities",
-      "Live Transfers",
-      "Exclusive Scheduled Appointments",
-      "BDR - Verified",
-      "Free Blog Posting",
-      "SEO Optimized Agent Profile",
-      "Dedicated Support Manager",
-      "60-day money-back guarantee",
-    ],
-    popular: false,
-  },
-  {
-    name: "Team Ultra",
-    icon: IconUsersGroup,
-    price: "$2499",
-    period: "/one-time",
-    description: "Scalable lead generation for larger teams.",
+    tagline: "Tailored campaigns to fuel small team success.",
+    bestFor: "Small teams ready to scale their lead generation together.",
     features: [
       "10% Referral Fee",
       "Up to 5 Agents",
-      "2-4 Exclusive Referrals/month To Every Agent",
+      "2-4 Exclusive Referrals/month per Agent",
       "Zip Codes/Counties/Cities",
       "Live Transfers",
       "Exclusive Scheduled Appointments",
       "BDR - Verified",
       "Free Blog Posting",
-      "SEO Optimized Agent Profile",
+      "SEO Optimized Agent Profile (per agent)",
+      "SEO Optimized Team Profile",
       "Dedicated Support Manager",
-      "FREE CRM",
-      "60-day money-back guarantee",
+      "FREE CRM Included",
     ],
-    popular: true,
+    tag: "",
+    tagColor: "",
+  },
+  {
+    name: "Scale",
+    icon: IconTrendingUp,
+    iconColor: "text-orange-400",
+    price: "$3,899",
+    originalPrice: "",
+    period: "/one-time",
+    tagline: "Scalable lead generation for larger teams.",
+    bestFor: "Growing teams who need maximum coverage and support.",
+    features: [
+      "10% Referral Fee",
+      "Up to 10 Agents",
+      "2-4 Exclusive Referrals/month per Agent",
+      "Zip Codes/Counties/Cities",
+      "Live Transfers",
+      "Exclusive Scheduled Appointments",
+      "BDR - Verified",
+      "Free Blog Posting",
+      "SEO Optimized Agent Profile (per agent)",
+      "SEO Optimized Team Profile",
+      "Dedicated Support Manager",
+      "FREE CRM Included",
+      "Priority Support",
+    ],
+    tag: "Best Value",
+    tagColor: "bg-orange-500",
   },
 ];
 
@@ -411,13 +433,35 @@ export default function PricingPage() {
   const currentPlans = planType === "solo" ? soloPlans : teamPlans;
 
   return (
-    <div className="min-h-screen bg-[#161616]">
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#161616]">
       <ScrollProgress />
       <NavbarDemo />
 
       <main className="relative pt-32 pb-20 overflow-hidden">
-        {/* Spotlight effect */}
-        <Spotlight className="absolute -top-40 left-0 md:left-60" fill="#d5b367" />
+
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Subtle dot grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, #d5b367 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+
+          {/* Top-right floating ambient blob */}
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[#d5b367]/5 blur-[120px]" />
+
+          {/* Left-side floating ambient blob */}
+          <div className="absolute top-1/4 -left-60 w-[500px] h-[500px] rounded-full bg-[#d5b367]/3 blur-[100px]" />
+
+          {/* Center glow for pricing section */}
+          <div className="absolute top-[60%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-[#d5b367]/5 blur-[150px]" />
+
+          {/* Bottom-right ambient blob */}
+          <div className="absolute bottom-1/4 -right-40 w-[400px] h-[400px] rounded-full bg-emerald-500/3 blur-[100px]" />
+        </div>
 
         {/* Section 1: Hero Header */}
         <section className="relative z-10 max-w-6xl mx-auto px-4 text-center mb-20">
@@ -458,7 +502,7 @@ export default function PricingPage() {
               {brokerageLogos.map((brokerage, idx) => (
                 <div
                   key={`first-${idx}`}
-                  className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                  className="relative h-12 w-24 md:h-12 md:w-36 mx-4 md:mx-6 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                 >
                   <Image
                     src={brokerage.logo}
@@ -474,7 +518,7 @@ export default function PricingPage() {
               {brokerageLogos.map((brokerage, idx) => (
                 <div
                   key={`second-${idx}`}
-                  className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                  className="relative h-12 w-24 md:h-12 md:w-36 mx-4 md:mx-6 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                 >
                   <Image
                     src={brokerage.logo}
@@ -822,42 +866,36 @@ export default function PricingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   className={`relative rounded-2xl p-6 ${
-                    plan.popular
+                    plan.tag === "Most Popular"
                       ? "bg-gradient-to-b from-[#d5b367]/20 to-transparent border-2 border-[#d5b367]/50"
+                      : plan.tag === "Best Results"
+                      ? "bg-gradient-to-b from-emerald-500/20 to-transparent border-2 border-emerald-500/50"
                       : "bg-white/[0.02] border border-white/10"
                   }`}
                 >
-                  {plan.popular && (
+                  {plan.tag && (
                     <div className="absolute -top-3 right-6">
-                      <span className="px-3 py-1 text-xs font-medium bg-[#d5b367] text-[#161616] rounded-full">
-                        Most popular
+                      <span className={`px-3 py-1 text-xs font-medium ${plan.tagColor} text-white rounded-full`}>
+                        {plan.tag}
                       </span>
                     </div>
                   )}
 
                   <div className="flex items-center gap-3 mb-4">
-                    <plan.icon className="w-6 h-6 text-white/70" />
+                    <plan.icon className={`w-6 h-6 ${plan.iconColor || "text-white/70"}`} />
                     <h3 className="text-xl font-bold text-white">{plan.name}</h3>
                   </div>
 
-                  <div className="mb-4">
-                    <span className="text-3xl font-bold text-white">{plan.price || "Contact"}</span>
+                  <div className="mb-2">
+                    {plan.originalPrice && (
+                      <span className="text-lg text-white/40 line-through mr-2">{plan.originalPrice}</span>
+                    )}
+                    <span className="text-3xl font-bold text-white">{plan.price}</span>
                     <span className="text-white/50">{plan.period}</span>
                   </div>
 
-                  <p className="text-white/60 text-sm mb-6">{plan.description}</p>
-
-                  <a
-                    href="/contact"
-                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-medium transition-all mb-6 ${
-                      plan.popular
-                        ? "bg-[#d5b367] text-[#161616] hover:bg-[#c9a555]"
-                        : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
-                    }`}
-                  >
-                    Choose this plan
-                    <IconArrowUpRight className="w-4 h-4" />
-                  </a>
+                  <p className="text-[#d5b367] text-sm font-medium mb-2">{plan.tagline}</p>
+                  <p className="text-white/50 text-xs mb-6">Best for: {plan.bestFor}</p>
 
                   <div>
                     <p className="text-sm font-medium text-white mb-4">What&apos;s Included:</p>
@@ -870,6 +908,20 @@ export default function PricingPage() {
                       ))}
                     </ul>
                   </div>
+
+                  <a
+                    href="/contact"
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full font-medium transition-all mt-6 ${
+                      plan.tag === "Most Popular"
+                        ? "bg-[#d5b367] text-[#161616] hover:bg-[#c9a555]"
+                        : plan.tag === "Best Results" || plan.tag === "Best Value"
+                        ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                        : "bg-white/5 text-white border border-white/10 hover:bg-white/10"
+                    }`}
+                  >
+                    Claim My Area
+                    <IconArrowUpRight className="w-4 h-4" />
+                  </a>
 
                   {/* CRM Add-on Section */}
                   {planType === "solo" && (plan as typeof soloPlans[0]).crmOption === "addon" && (
@@ -915,6 +967,21 @@ export default function PricingPage() {
               ))}
             </motion.div>
           </AnimatePresence>
+
+          {/* Commitment Note */}
+          <motion.div
+            className="mt-12 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10">
+              <IconClock className="w-5 h-5 text-[#d5b367]" />
+              <p className="text-white/70 text-sm">
+                <span className="text-white font-medium">Best results achieved after 3-4 months</span> commitment minimum
+              </p>
+            </div>
+          </motion.div>
         </section>
 
         {/* Section 8: CRM Services */}
@@ -1189,7 +1256,6 @@ export default function PricingPage() {
                   <IconArrowUpRight className="w-4 h-4" />
                 </a>
               </div>
-              <p className="mt-4 text-white/40 text-sm">It&apos;s Free</p>
             </SpotlightCard>
           </motion.div>
         </section>

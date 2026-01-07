@@ -54,61 +54,73 @@ const ghlPerks = [
     title: "Unlimited Sub-Accounts",
     description: "Create unlimited client accounts with their own branded CRM portal.",
     highlight: true,
+    color: "#d5b367", // Gold
   },
   {
     icon: IconMail,
     title: "Email Marketing",
     description: "Unlimited emails with drag-and-drop builder, templates, and automation.",
+    color: "#3b82f6", // Blue
   },
   {
     icon: IconMessageCircle,
     title: "2-Way SMS & MMS",
     description: "Text your leads directly from the CRM with automated responses.",
+    color: "#10b981", // Emerald
   },
   {
     icon: IconBrandWhatsapp,
     title: "WhatsApp Integration",
     description: "Connect with clients via WhatsApp for instant communication.",
+    color: "#22c55e", // Green
   },
   {
     icon: IconCalendarEvent,
     title: "Appointment Booking",
     description: "Online booking calendar with automated reminders and confirmations.",
+    color: "#8b5cf6", // Purple
   },
   {
     icon: IconRobot,
     title: "AI-Powered Chatbot",
     description: "24/7 lead capture and qualification with intelligent AI responses.",
+    color: "#06b6d4", // Cyan
   },
   {
     icon: IconWorld,
     title: "Website & Funnel Builder",
     description: "Create landing pages, websites, and sales funnels with no code.",
+    color: "#6366f1", // Indigo
   },
   {
     icon: IconCreditCard,
     title: "Payment Processing",
     description: "Accept payments, create invoices, and manage subscriptions.",
+    color: "#f97316", // Orange
   },
   {
     icon: IconSpeakerphone,
     title: "Reputation Management",
     description: "Automated review requests and reputation monitoring across platforms.",
+    color: "#ec4899", // Pink
   },
   {
     icon: IconChartPie,
     title: "Advanced Analytics",
     description: "Detailed reporting on campaigns, leads, and revenue performance.",
+    color: "#14b8a6", // Teal
   },
   {
     icon: IconDatabase,
     title: "Pipeline Management",
     description: "Visual drag-and-drop pipeline with custom stages and automation.",
+    color: "#a855f7", // Purple
   },
   {
     icon: IconHeadset,
     title: "Call Tracking & Recording",
     description: "Track calls, record conversations, and analyze call performance.",
+    color: "#f59e0b", // Amber
   },
 ];
 
@@ -119,24 +131,28 @@ const keyBenefits = [
     stat: "10+ Hours",
     label: "Saved Weekly",
     description: "Automate repetitive tasks and focus on closing deals",
+    color: "#3b82f6", // Blue
   },
   {
     icon: IconTrendingUp,
     stat: "40%",
     label: "More Conversions",
     description: "Convert more leads with automated follow-ups",
+    color: "#10b981", // Emerald
   },
   {
     icon: IconCurrencyDollar,
     stat: "3x",
     label: "ROI Increase",
     description: "Triple your return on marketing investment",
+    color: "#d5b367", // Gold
   },
   {
     icon: IconUsers,
     stat: "500+",
     label: "Agents Using",
     description: "Join successful real estate professionals",
+    color: "#8b5cf6", // Purple
   },
 ];
 
@@ -267,17 +283,22 @@ export default function CRM() {
           {keyBenefits.map((benefit, idx) => (
             <motion.div
               key={idx}
-              className="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-[#d5b367]/30 transition-colors"
+              className="text-center p-6 rounded-2xl bg-white/[0.03] border border-white/10 transition-colors"
+              style={{ borderColor: `${benefit.color}30` }}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 + idx * 0.1 }}
+              whileHover={{ borderColor: `${benefit.color}60` }}
             >
-              <div className="w-12 h-12 rounded-xl bg-[#d5b367]/20 flex items-center justify-center mx-auto mb-3">
-                <benefit.icon className="w-6 h-6 text-[#d5b367]" />
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3"
+                style={{ backgroundColor: `${benefit.color}20` }}
+              >
+                <benefit.icon className="w-6 h-6" style={{ color: benefit.color }} />
               </div>
               <div className="text-3xl md:text-4xl font-bold text-white mb-1">{benefit.stat}</div>
-              <div className="text-sm text-[#d5b367] font-medium mb-2">{benefit.label}</div>
+              <div className="text-sm font-medium mb-2" style={{ color: benefit.color }}>{benefit.label}</div>
               <p className="text-xs text-white/50">{benefit.description}</p>
             </motion.div>
           ))}
@@ -315,10 +336,11 @@ export default function CRM() {
                 }`}
               >
                 <div className="flex items-start gap-4">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                    perk.highlight ? "bg-[#d5b367]/30" : "bg-white/5"
-                  }`}>
-                    <perk.icon className={`w-5 h-5 ${perk.highlight ? "text-[#d5b367]" : "text-white/60"}`} />
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: `${perk.color}20` }}
+                  >
+                    <perk.icon className="w-5 h-5" style={{ color: perk.color }} />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold mb-1">{perk.title}</h4>

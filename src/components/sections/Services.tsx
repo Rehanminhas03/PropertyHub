@@ -42,6 +42,7 @@ const services = [
       "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&q=80",
     stats: { value: "300%", label: "Avg. ROI" },
     gridClass: "md:col-span-2 md:row-span-2",
+    accentColor: "#3b82f6", // Blue
   },
   {
     icon: IconMail,
@@ -53,6 +54,7 @@ const services = [
     image:
       "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&q=80",
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#10b981", // Emerald
   },
   {
     icon: IconRobot,
@@ -65,6 +67,7 @@ const services = [
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
     stats: { value: "24/7", label: "Always On" },
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#8b5cf6", // Purple
   },
   {
     icon: IconVideo,
@@ -76,6 +79,7 @@ const services = [
     image:
       "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80",
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#f97316", // Orange
   },
   {
     icon: IconPencil,
@@ -88,6 +92,7 @@ const services = [
       "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80",
     stats: { value: "10x", label: "Engagement" },
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#06b6d4", // Cyan
   },
   // Row 3: 4 small cards
   {
@@ -100,6 +105,7 @@ const services = [
     image:
       "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80",
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#6366f1", // Indigo
   },
   {
     icon: IconBrandInstagram,
@@ -112,6 +118,7 @@ const services = [
       "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80",
     stats: { value: "500+", label: "Brands Built" },
     gridClass: "md:col-span-1 md:row-span-1",
+    accentColor: "#ec4899", // Pink
   },
   {
     icon: IconPhone,
@@ -124,6 +131,7 @@ const services = [
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80",
     stats: { value: "77k+", label: "Leads Generated" },
     gridClass: "md:col-span-2 md:row-span-1",
+    accentColor: "#d5b367", // Gold (primary)
   },
 ];
 
@@ -184,7 +192,7 @@ function ServiceCard({
           background: useMotionTemplate`
             radial-gradient(
               400px circle at ${mouseX}px ${mouseY}px,
-              rgba(213, 179, 103, 0.2),
+              ${service.accentColor}33,
               transparent 80%
             )
           `,
@@ -192,19 +200,32 @@ function ServiceCard({
       />
 
       {/* Border */}
-      <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-[#d5b367]/50 transition-colors duration-300 z-10" />
+      <div
+        className="absolute inset-0 rounded-2xl border border-white/10 transition-colors duration-300 z-10"
+        style={{
+          borderColor: isHovered ? `${service.accentColor}80` : undefined,
+        }}
+      />
 
       {/* Content */}
       <div className={`relative z-20 h-full flex flex-col justify-end ${isLarge ? "p-6" : "p-4"}`}>
         {/* Stats badge */}
         {service.stats && (
           <motion.div
-            className="absolute top-4 right-4 bg-[#d5b367]/20 backdrop-blur-sm border border-[#d5b367]/30 rounded-lg px-3 py-1.5"
+            className="absolute top-4 right-4 backdrop-blur-sm rounded-lg px-3 py-1.5"
+            style={{
+              backgroundColor: `${service.accentColor}20`,
+              borderColor: `${service.accentColor}40`,
+              borderWidth: 1,
+            }}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: isHovered ? 1 : 0.7, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className={`${isLarge ? "text-xl" : "text-base"} font-bold text-[#d5b367]`}>
+            <div
+              className={`${isLarge ? "text-xl" : "text-base"} font-bold`}
+              style={{ color: service.accentColor }}
+            >
               {service.stats.value}
             </div>
             <div className="text-[10px] text-white/60">{service.stats.label}</div>
@@ -213,20 +234,28 @@ function ServiceCard({
 
         {/* Icon */}
         <motion.div
-          className={`${isLarge ? "w-12 h-12" : "w-10 h-10"} rounded-lg bg-[#d5b367]/20 backdrop-blur-sm border border-[#d5b367]/30 flex items-center justify-center mb-3`}
+          className={`${isLarge ? "w-12 h-12" : "w-10 h-10"} rounded-lg backdrop-blur-sm flex items-center justify-center mb-3`}
+          style={{
+            backgroundColor: `${service.accentColor}20`,
+            borderColor: `${service.accentColor}40`,
+            borderWidth: 1,
+          }}
           animate={{
             scale: isHovered ? 1.1 : 1,
-            backgroundColor: isHovered
-              ? "rgba(213, 179, 103, 0.3)"
-              : "rgba(213, 179, 103, 0.2)",
           }}
           transition={{ duration: 0.3 }}
         >
-          <service.icon className={`${isLarge ? "w-6 h-6" : "w-5 h-5"} text-[#d5b367]`} />
+          <service.icon
+            className={`${isLarge ? "w-6 h-6" : "w-5 h-5"}`}
+            style={{ color: service.accentColor }}
+          />
         </motion.div>
 
         {/* Title */}
-        <h3 className={`${isLarge ? "text-xl" : "text-base"} font-semibold text-white mb-1 group-hover:text-[#d5b367] transition-colors`}>
+        <h3
+          className={`${isLarge ? "text-xl" : "text-base"} font-semibold text-white mb-1 transition-colors`}
+          style={{ color: isHovered ? service.accentColor : undefined }}
+        >
           {service.title}
         </h3>
 
@@ -257,7 +286,11 @@ function ServiceCard({
           {service.features.slice(0, 3).map((feature, fidx) => (
             <span
               key={fidx}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm text-white/70 group-hover:bg-[#d5b367]/20 group-hover:text-white transition-colors"
+              className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm text-white/70 transition-colors"
+              style={{
+                backgroundColor: isHovered ? `${service.accentColor}25` : undefined,
+                color: isHovered ? "#ffffff" : undefined,
+              }}
             >
               {feature}
             </span>

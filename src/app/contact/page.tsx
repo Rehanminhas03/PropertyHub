@@ -353,25 +353,15 @@ export default function ContactPage() {
             </h1>
           </motion.div>
 
-          {/* Two Column Headers */}
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 mb-8">
-            <motion.p
-              className="text-white/60 text-center lg:text-left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
-              Choose a convenient time and connect directly with our team.
-            </motion.p>
-            <motion.p
-              className="text-white/60 text-center lg:text-left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Not ready to book a call? Fill out the form and our team will reach out as soon as possible.
-            </motion.p>
-          </div>
+          {/* Description */}
+          <motion.p
+            className="text-white/60 text-center max-w-2xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            Choose a convenient time and our team will call you at your scheduled slot.
+          </motion.p>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column - Calendar Booking */}
@@ -909,7 +899,7 @@ export default function ContactPage() {
                       </a>
                     </div>
 
-                    {/* Address */}
+                    {/* Address - Commented out
                     <div className="mt-4 flex items-center justify-center gap-2 text-sm text-white/50">
                       <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -919,6 +909,7 @@ export default function ContactPage() {
                         {siteConfig.address?.street}, {siteConfig.address?.city}, {siteConfig.address?.state} {siteConfig.address?.zip}
                       </span>
                     </div>
+                    */}
                   </div>
                 </form>
               )}

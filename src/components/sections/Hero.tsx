@@ -14,7 +14,7 @@ const brokerageLogos = [
   { name: "Zillow", logo: "/logos/33.png", scale: 1, keepColor: true },
   { name: "Partner 4", logo: "/logos/4.png", scale: 1, keepColor: false },
   { name: "Partner 5", logo: "/logos/5.png", scale: 1, keepColor: false },
-  { name: "Partner 6", logo: "/logos/6.png", scale: 1.3, keepColor: false },
+  { name: "Partner 6", logo: "/logos/6.png", scale: 1.1, keepColor: false },
   { name: "Partner 7", logo: "/logos/7.png", scale: 1.2, keepColor: false },
   { name: "Partner 8", logo: "/logos/8.png", scale: 1, keepColor: false },
   { name: "Partner 9", logo: "/logos/9.png", scale: 1.1, keepColor: false },
@@ -84,6 +84,11 @@ export default function Hero() {
 
         {/* Decorative elements */}
         <div className="absolute top-0 right-[35%] w-px h-full bg-gradient-to-b from-transparent via-[#d5b367]/20 to-transparent" />
+
+        {/* Subtle colorful ambient blobs */}
+        <div className="absolute top-1/4 left-[10%] w-[300px] h-[300px] rounded-full bg-[#3b82f6]/5 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-1/3 left-[20%] w-[250px] h-[250px] rounded-full bg-[#8b5cf6]/5 blur-[80px] pointer-events-none" />
+        <div className="absolute top-1/2 right-[20%] w-[200px] h-[200px] rounded-full bg-[#10b981]/5 blur-[80px] pointer-events-none" />
       </div>
 
       {/* Main Content */}
@@ -164,7 +169,7 @@ export default function Hero() {
                 {brokerageLogos.map((brokerage, idx) => (
                   <div
                     key={`first-${idx}`}
-                    className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                    className="relative h-12 w-24 md:h-12 md:w-36 mx-4 md:mx-6 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                   >
                     <Image
                       src={brokerage.logo}
@@ -180,7 +185,7 @@ export default function Hero() {
                 {brokerageLogos.map((brokerage, idx) => (
                   <div
                     key={`second-${idx}`}
-                    className="relative h-12 w-24 md:h-12 md:w-36 mx-3 md:mx-4 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
+                    className="relative h-12 w-24 md:h-12 md:w-36 mx-4 md:mx-6 opacity-70 hover:opacity-100 transition-opacity flex-shrink-0"
                   >
                     <Image
                       src={brokerage.logo}
