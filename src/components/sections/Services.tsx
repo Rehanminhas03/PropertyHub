@@ -115,7 +115,7 @@ const services = [
     features: ["Logo Design", "Brand Guidelines", "Visual Identity"],
     category: "content",
     image:
-      "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80",
+      "https://images.unsplash.com/photo-1542744094-3a31f272c490?w=800&q=80",
     stats: { value: "500+", label: "Brands Built" },
     gridClass: "md:col-span-1 md:row-span-1",
     accentColor: "#ec4899", // Pink

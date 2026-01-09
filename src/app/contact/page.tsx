@@ -139,6 +139,7 @@ export default function ContactPage() {
     question: "",
     consentSMS: false,
     consentMarketing: false,
+    agreeTerms: false,
   });
 
   // Contact form state (right column)
@@ -151,6 +152,7 @@ export default function ContactPage() {
     message: "",
     consentSMS: false,
     consentMarketing: false,
+    agreeTerms: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -202,10 +204,10 @@ export default function ContactPage() {
     setBookingStep(3);
   };
 
-  // Get display time in user's local timezone
+  // Get display time in Central Time
   const getDisplayTime = (slot: { hour: number; minute: number } | null): string => {
-    if (!slot || !selectedDate) return "";
-    return `${formatLocalTime(slot.hour, slot.minute, selectedDate)} ${getUserTimezoneAbbr()}`;
+    if (!slot) return "";
+    return formatCTTime(slot.hour, slot.minute);
   };
 
   // Get time in CT for submission
@@ -302,7 +304,7 @@ export default function ContactPage() {
       setIsSubmitted(true);
       setFormState({
         firstName: "", lastName: "", phone: "", email: "",
-        subject: "", message: "", consentSMS: false, consentMarketing: false
+        subject: "", message: "", consentSMS: false, consentMarketing: false, agreeTerms: false
       });
 
       setTimeout(() => setIsSubmitted(false), 5000);
@@ -325,7 +327,7 @@ export default function ContactPage() {
     setBookingStep(1);
     setBookingForm({
       firstName: "", lastName: "", phone: "", email: "",
-      interest: "", question: "", consentSMS: false, consentMarketing: false
+      interest: "", question: "", consentSMS: false, consentMarketing: false, agreeTerms: false
     });
   };
 
@@ -360,7 +362,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            Choose a convenient time and our team will call you at your scheduled slot.
+            Complete the form and our team will connect with you
           </motion.p>
 
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -425,7 +427,7 @@ export default function ContactPage() {
                     )}
                     <div className="flex items-center gap-3 text-sm">
                       <IconWorld className="w-4 h-4 text-white/40" />
-                      <span className="text-white/70">{Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+                      <span className="text-white/70">Central Time (CT) - US</span>
                     </div>
                     <p className="text-white/50 text-sm pt-2 border-t border-white/10">
                       Discover How Leveraging AI Can Significantly Boost Your Presence & Drive Results...
@@ -525,7 +527,7 @@ export default function ContactPage() {
                         <p className="text-xs text-white/40 mb-2">Time zone</p>
                         <div className="flex items-center gap-2 text-sm text-white/70">
                           <IconWorld className="w-4 h-4" />
-                          <span>{Intl.DateTimeFormat().resolvedOptions().timeZone}</span>
+                          <span>Central Time (CT) - US</span>
                         </div>
                       </div>
                     </>
@@ -543,12 +545,12 @@ export default function ContactPage() {
                       </button>
                       <h3 className="text-white font-medium mb-2">Select a time</h3>
                       <p className="text-white/50 text-xs mb-4">
-                        Times shown in your timezone ({getUserTimezoneAbbr()})
+                        Times shown in Central Time (CT)
                       </p>
                       <div className="grid grid-cols-3 gap-2 max-h-[280px] overflow-y-auto pr-2">
                         {businessHoursCT.map((slot, idx) => {
                           const isSelected = selectedTimeSlot?.hour === slot.hour && selectedTimeSlot?.minute === slot.minute;
-                          const displayTime = formatLocalTime(slot.hour, slot.minute, selectedDate);
+                          const displayTime = formatCTTime(slot.hour, slot.minute);
                           return (
                             <button
                               key={idx}
@@ -687,11 +689,30 @@ export default function ContactPage() {
                               I agree to receive marketing messages from {siteConfig.name}.
                             </span>
                           </label>
+
+                          <label className="flex items-start gap-2 cursor-pointer">
+                            <div className="relative flex-shrink-0 mt-0.5">
+                              <input
+                                type="checkbox"
+                                name="agreeTerms"
+                                required
+                                checked={bookingForm.agreeTerms}
+                                onChange={handleBookingFormChange}
+                                className="sr-only peer"
+                              />
+                              <div className="w-4 h-4 rounded border border-white/20 bg-white/5 peer-checked:bg-[#d5b367] peer-checked:border-[#d5b367] transition-colors flex items-center justify-center">
+                                {bookingForm.agreeTerms && <IconCheck className="w-2.5 h-2.5 text-[#161616]" />}
+                              </div>
+                            </div>
+                            <span className="text-[10px] text-white/50 leading-relaxed">
+                              I agree to the <Link href="/terms" className="text-[#d5b367] hover:underline">Terms and Conditions</Link>.*
+                            </span>
+                          </label>
                         </div>
 
                         <button
                           type="submit"
-                          disabled={isBookingSubmitting}
+                          disabled={isBookingSubmitting || !bookingForm.agreeTerms}
                           className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#d5b367] text-[#161616] font-semibold hover:bg-[#c9a555] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                           {isBookingSubmitting ? (
@@ -719,6 +740,11 @@ export default function ContactPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
+              {/* Prefer written introduction text */}
+              <div className="mb-6 text-center">
+                <p className="text-white/70 text-lg font-medium">Prefer a written introduction first?</p>
+              </div>
+
               {error && (
                 <motion.div
                   className="mb-4 p-4 rounded-lg bg-red-500/20 border border-red-500/30"
@@ -845,11 +871,30 @@ export default function ContactPage() {
                         By checking this box I agree to receive occasional marketing messages from {siteConfig.name}.
                       </span>
                     </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <div className="relative flex-shrink-0 mt-0.5">
+                        <input
+                          type="checkbox"
+                          name="agreeTerms"
+                          required
+                          checked={formState.agreeTerms}
+                          onChange={handleInputChange}
+                          className="sr-only peer"
+                        />
+                        <div className="w-5 h-5 rounded border border-white/20 bg-white/5 peer-checked:bg-[#d5b367] peer-checked:border-[#d5b367] transition-colors flex items-center justify-center">
+                          {formState.agreeTerms && <IconCheck className="w-3 h-3 text-[#161616]" />}
+                        </div>
+                      </div>
+                      <span className="text-xs text-white/50 leading-relaxed">
+                        I agree to the <Link href="/terms" className="text-[#d5b367] hover:underline">Terms and Conditions</Link>.*
+                      </span>
+                    </label>
                   </div>
 
                   <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !formState.agreeTerms}
                     className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-[#d5b367] text-[#161616] font-semibold hover:bg-[#c9a555] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 uppercase tracking-wide"
                   >
                     {isSubmitting ? (

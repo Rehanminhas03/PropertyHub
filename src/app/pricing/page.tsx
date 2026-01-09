@@ -136,7 +136,7 @@ const processItems = [
 
 // Comparison table data
 const comparisonRows = [
-  { feature: "Subscription Cost", marketlyn: "$375 or $675 one-time fee", competitor1: "$200+/month*, up to $1000+/month*", competitor2: "$150 per referral*" },
+  { feature: "Subscription Cost", marketlyn: "$399 - $1,495 one-time fee", competitor1: "$200+/month*, up to $1000+/month*", competitor2: "$150 per referral*" },
   { feature: "Referral Exclusivity", marketlyn: "Exclusive referrals", competitor1: "Varies with subscription tier", competitor2: "First-come, first-served" },
   { feature: "Consistent Pricing", marketlyn: "Stable rates", competitor1: "Interest and market-driven variability", competitor2: "Sort by property costs and area competition" },
   { feature: "Preferred Area Selection", marketlyn: "Scheduled appts from your zip codes", competitor1: "Agents can purchase exclusive zip codes", competitor2: "Limited due to high competition" },
@@ -144,6 +144,7 @@ const comparisonRows = [
   { feature: "Contact Confirmation", marketlyn: true, competitor1: false, competitor2: true },
   { feature: "Referral Distribution Priority", marketlyn: "Exclusive to you", competitor1: "Referrals placed in a pool for agents in that area", competitor2: "Referrals placed in a pool for agents in that area" },
   { feature: "Customized Advertising Campaigns", marketlyn: true, competitor1: false, competitor2: "Available at an extra cost" },
+  { feature: "SEO Optimized Agent Profile", marketlyn: "Included (MarketEdge & ClosePoint)", competitor1: false, competitor2: false },
 ];
 
 // CRM Add-on pricing
@@ -199,6 +200,7 @@ const soloPlans = [
       "5-7 Zip Codes/Areas",
       "BDR - Verified",
       "Email Marketing",
+      "SEO Optimized Agent Profile",
       "Priority Support",
     ],
     tag: "Most Popular",
@@ -220,6 +222,7 @@ const soloPlans = [
       "Zip Codes/Counties/Cities",
       "Live Transfers",
       "Exclusive Scheduled Appointments",
+      "SEO Optimized Agent Profile",
       "Dedicated Support Manager",
       "FREE CRM Included",
     ],
