@@ -6,7 +6,6 @@ import NavbarDemo from "@/components/Navbar";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import Footer from "@/components/sections/Footer";
 import { Badge } from "@/components/ui/badge";
-import { Spotlight } from "@/components/ui/spotlight";
 import {
   IconCheck,
   IconCalendarEvent,
@@ -334,12 +333,34 @@ export default function ContactPage() {
   const calendarDays = generateCalendarDays();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#161616]">
       <ScrollProgress />
       <NavbarDemo />
 
       <main className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <Spotlight className="absolute -top-40 left-0 md:left-60" fill="#d5b367" />
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Subtle dot grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'radial-gradient(circle, #d5b367 1px, transparent 1px)',
+              backgroundSize: '40px 40px',
+            }}
+          />
+
+          {/* Top-right floating ambient blob */}
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-[#d5b367]/5 blur-[120px]" />
+
+          {/* Left-side floating ambient blob */}
+          <div className="absolute top-1/4 -left-60 w-[500px] h-[500px] rounded-full bg-[#d5b367]/3 blur-[100px]" />
+
+          {/* Center glow */}
+          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full bg-[#d5b367]/5 blur-[150px]" />
+
+          {/* Bottom-right ambient blob */}
+          <div className="absolute bottom-1/4 -right-40 w-[400px] h-[400px] rounded-full bg-emerald-500/3 blur-[100px]" />
+        </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
