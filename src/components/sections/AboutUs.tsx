@@ -105,14 +105,14 @@ export default function AboutUs() {
   return (
     <section
       id="about-us"
-      className="relative pt-16 pb-32 px-4 overflow-hidden bg-[#161616]"
+      className="relative pt-16 pb-32 px-4 overflow-hidden bg-[#0a0a0a]"
       ref={ref}
     >
       {/* Top fade gradient to blend with hero section */}
       <div
         className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
         style={{
-          background: "linear-gradient(to bottom, #161616 0%, transparent 100%)",
+          background: "linear-gradient(to bottom, #0a0a0a 0%, transparent 100%)",
         }}
       />
 

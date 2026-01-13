@@ -14,7 +14,7 @@ import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#161616]">
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#0a0a0a]">
       <ScrollProgress />
       <NavbarDemo />
       <Hero />

@@ -27,7 +27,7 @@ export default function Footer() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <footer ref={ref} className="relative pt-24 pb-12 px-6 border-t border-[#d5b367]/10 overflow-hidden bg-[#0f0f0f]">
+    <footer ref={ref} className="relative pt-24 pb-12 px-6 border-t border-[#d5b367]/10 overflow-hidden bg-[#0a0a0a]">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
           {/* Brand */}

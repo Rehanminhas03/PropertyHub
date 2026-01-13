@@ -233,7 +233,7 @@ export default function CRM() {
   const [activeUseCase, setActiveUseCase] = useState(0);
 
   return (
-    <section id="crm" className="relative py-24 md:py-32 px-4 bg-[#161616] overflow-hidden">
+    <section id="crm" className="relative py-24 md:py-32 px-4 bg-[#0a0a0a] overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 pointer-events-none">
         <div

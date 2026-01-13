@@ -122,7 +122,7 @@ function BenefitCard({
           }}
         >
           {/* Left Side - Content */}
-          <div className="w-full lg:w-1/2 h-full bg-[#1a1a1a] p-8 md:p-12 lg:p-14 flex flex-col justify-center relative">
+          <div className="w-full lg:w-1/2 h-full bg-[#0f0f0f] p-8 md:p-12 lg:p-14 flex flex-col justify-center relative">
             {/* Accent gradient background */}
             <div
               className="absolute inset-0 opacity-10"
@@ -242,7 +242,7 @@ export default function Benefits() {
     <section
       id="benefits"
       ref={containerRef}
-      className="relative bg-[#161616]"
+      className="relative bg-[#0a0a0a]"
       style={{ height: `${benefits.length * 100}vh` }}
     >
       {/* Sticky Container */}

@@ -120,7 +120,7 @@ export default function Stats() {
 
                     {/* Icon container */}
                     <motion.div
-                      className="relative w-[100px] h-[100px] rounded-full bg-[#1a1a1a] flex items-center justify-center"
+                      className="relative w-[100px] h-[100px] rounded-full bg-[#0f0f0f] flex items-center justify-center"
                       style={{ borderColor: `${step.color}30`, borderWidth: 1 }}
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 300 }}

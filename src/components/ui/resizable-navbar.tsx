@@ -112,7 +112,7 @@ export const NavBody: React.FC<NavBodyProps> = ({
     <motion.div
       animate={{
         y: visible ? 20 : 0,
-        width: visible ? "60%" : "70%",
+        width: visible ? "70%" : "80%",
       }}
       transition={{
         type: "spring",
@@ -127,7 +127,7 @@ export const NavBody: React.FC<NavBodyProps> = ({
           : "bg-[#161616]/80 backdrop-blur-[10px] border border-[#b49146]/10",
         className
       )}
-      style={{ width: visible ? "60%" : "70%" }}
+      style={{ width: visible ? "70%" : "80%" }}
     >
       {children}
     </motion.div>

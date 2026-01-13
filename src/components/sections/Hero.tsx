@@ -47,12 +47,12 @@ export default function Hero() {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen bg-[#161616] overflow-hidden"
+      className="relative min-h-screen bg-[#0a0a0a] overflow-hidden"
     >
       {/* Background with diagonal image */}
       <div className="absolute inset-0">
         {/* Dark background base */}
-        <div className="absolute inset-0 bg-[#161616]" />
+        <div className="absolute inset-0 bg-[#0a0a0a]" />
 
         {/* Diagonal Image Container */}
         <motion.div
@@ -76,7 +76,7 @@ export default function Hero() {
               sizes="65vw"
             />
             {/* Dark overlay on image */}
-            <div className="absolute inset-0 bg-[#161616]/40" />
+            <div className="absolute inset-0 bg-[#0a0a0a]/40" />
             {/* Gold tint */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#d5b367]/10 via-transparent to-transparent mix-blend-overlay" />
           </div>

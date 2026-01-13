@@ -23,7 +23,7 @@ const brokerageLogos = [
 
 export default function LogoMarqueeSection() {
   return (
-    <section className="relative -mt-8 pb-12 bg-[#161616] overflow-hidden">
+    <section className="relative -mt-8 pb-12 bg-[#0a0a0a] overflow-hidden">
       <motion.div
         className="relative z-10 w-[70%] mx-auto"
         initial={{ opacity: 0, y: 30 }}
