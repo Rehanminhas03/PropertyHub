@@ -15,6 +15,7 @@ const footerLinks = {
   resources: [
     { name: "FAQ", href: "#faq" },
     { name: "CRM", href: "#crm" },
+    { name: "SEO Agent Profile", href: "/agent-profile" },
   ],
   legal: [
     { name: "Privacy Policy", href: "/privacy" },
