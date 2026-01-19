@@ -115,10 +115,10 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <span className="block">Marketing</span>
-              <span className="block">Without The</span>
+              <span className="block">Close More</span>
+              <span className="block">Deals With</span>
               <span className="block bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">
-                Hassle.
+                Quality Leads.
               </span>
             </motion.h1>
 
@@ -129,8 +129,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              With our AI-driven marketing platform, you can boost your lead generation
-              with intent-verified referrals. Scale your real estate business effortlessly.
+              Get exclusive, intent-verified buyer and seller leads delivered directly to you.
+              Grow your real estate business with qualified prospects ready to transact.
             </motion.p>
 
             {/* CTA Buttons */}

@@ -315,7 +315,7 @@ function CategoryTab({
   return (
     <motion.button
       onClick={onClick}
-      className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+      className={`relative px-3 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
         isActive ? "text-[#161616]" : "text-white/60 hover:text-white"
       }`}
       whileHover={{ scale: 1.05 }}
@@ -393,12 +393,12 @@ export default function Services() {
 
         {/* Category Tabs */}
         <motion.div
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-12 overflow-x-auto scrollbar-hide"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div className="inline-flex gap-2 p-1.5 rounded-full bg-white/5 border border-white/10">
+          <div className="inline-flex gap-1 sm:gap-2 p-1.5 rounded-full bg-white/5 border border-white/10 min-w-max">
             {categories.map((category) => (
               <CategoryTab
                 key={category.id}
