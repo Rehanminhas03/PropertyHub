@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { IconUser } from "@tabler/icons-react";
 import {
   Navbar,
   NavBody,
@@ -31,10 +32,16 @@ export default function NavbarDemo() {
       <NavBody>
         <NavbarLogo />
         <NavItems items={navItems} />
-        <NavbarButton variant="primary" href="/pricing">
-          Get Started
-          <ArrowIcon />
-        </NavbarButton>
+        <div className="flex items-center gap-3">
+          <NavbarButton variant="secondary" href="/login">
+            <IconUser className="w-4 h-4" />
+            Login
+          </NavbarButton>
+          <NavbarButton variant="primary" href="/pricing">
+            Get Started
+            <ArrowIcon />
+          </NavbarButton>
+        </div>
       </NavBody>
 
       {/* Mobile Navigation */}
@@ -55,7 +62,15 @@ export default function NavbarDemo() {
             className="flex-col items-start gap-2"
             onItemClick={() => setMobileMenuOpen(false)}
           />
-          <div className="mt-8 pt-6 border-t border-white/10">
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col gap-3">
+            <NavbarButton
+              variant="secondary"
+              href="/login"
+              className="w-full justify-center"
+            >
+              <IconUser className="w-4 h-4" />
+              Login
+            </NavbarButton>
             <NavbarButton
               variant="primary"
               href="/pricing"
