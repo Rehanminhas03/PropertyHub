@@ -33,7 +33,7 @@ export default function NavbarDemo() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-3">
-          <NavbarButton variant="secondary" href="/login">
+          <NavbarButton variant="secondary" href="https://re.marketlyn.com/login">
             <IconUser className="w-4 h-4" />
             Login
           </NavbarButton>
@@ -65,7 +65,7 @@ export default function NavbarDemo() {
           <div className="mt-8 pt-6 border-t border-white/10 flex flex-col gap-3">
             <NavbarButton
               variant="secondary"
-              href="/login"
+              href="https://re.marketlyn.com/login"
               className="w-full justify-center"
             >
               <IconUser className="w-4 h-4" />
