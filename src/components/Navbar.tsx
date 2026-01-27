@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Navbar,
   NavBody,
@@ -63,20 +64,34 @@ export default function NavbarDemo() {
               Portal
               <IconChevronDown className={`w-4 h-4 transition-transform ${portalDropdownOpen ? "rotate-180" : ""}`} />
             </button>
-            {portalDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-40 bg-neutral-900 border border-white/10 rounded-lg shadow-xl overflow-hidden z-50">
-                {portalItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.link}
-                    className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                    onClick={() => setPortalDropdownOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {portalDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="absolute top-full right-0 mt-2 w-40 bg-neutral-900 border border-white/10 rounded-lg shadow-xl overflow-hidden z-50"
+                >
+                  {portalItems.map((item, index) => (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: index * 0.05 }}
+                    >
+                      <Link
+                        href={item.link}
+                        className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+                        onClick={() => setPortalDropdownOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           <NavbarButton variant="primary" href="/pricing">
             Get Started
@@ -113,23 +128,37 @@ export default function NavbarDemo() {
                 Portal
                 <IconChevronDown className={`w-4 h-4 transition-transform ${mobilePortalOpen ? "rotate-180" : ""}`} />
               </button>
-              {mobilePortalOpen && (
-                <div className="mt-2 bg-white/5 rounded-lg overflow-hidden">
-                  {portalItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.link}
-                      className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors text-center"
-                      onClick={() => {
-                        setMobilePortalOpen(false);
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
+              <AnimatePresence>
+                {mobilePortalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className="mt-2 bg-white/5 rounded-lg overflow-hidden"
+                  >
+                    {portalItems.map((item, index) => (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, delay: index * 0.05 }}
+                      >
+                        <Link
+                          href={item.link}
+                          className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors text-center"
+                          onClick={() => {
+                            setMobilePortalOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <NavbarButton
               variant="primary"

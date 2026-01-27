@@ -95,18 +95,6 @@ const formatCTTime = (hour: number, minute: number): string => {
   return `${displayHour}:${displayMinute} ${period} CT`;
 };
 
-const subjectOptions = [
-  "Social Media Marketing",
-  "PPC & Google Ads",
-  "SEO & Local Search",
-  "Content Creation",
-  "Video Production",
-  "AI Automation",
-  "Full Marketing Package",
-  "General Inquiry",
-  "Other",
-];
-
 const interestOptions = [
   "Social Media Marketing",
   "PPC & Google Ads",
@@ -147,7 +135,6 @@ export default function ContactPage() {
     lastName: "",
     phone: "",
     email: "",
-    subject: "",
     message: "",
     consentSMS: false,
     consentMarketing: false,
@@ -288,9 +275,8 @@ export default function ContactPage() {
         body: JSON.stringify({
           name: `${formState.firstName} ${formState.lastName}`,
           email: formState.email,
-          phone: formState.phone,
-          company: formState.subject,
-          message: formState.message,
+          phone: formState.phone || "",
+          message: formState.message || "",
         }),
       });
 
@@ -303,7 +289,7 @@ export default function ContactPage() {
       setIsSubmitted(true);
       setFormState({
         firstName: "", lastName: "", phone: "", email: "",
-        subject: "", message: "", consentSMS: false, consentMarketing: false, agreeTerms: false
+        message: "", consentSMS: false, consentMarketing: false, agreeTerms: false
       });
 
       setTimeout(() => setIsSubmitted(false), 5000);
@@ -812,16 +798,6 @@ export default function ContactPage() {
                   </div>
 
                   <input
-                    type="tel"
-                    name="phone"
-                    required
-                    value={formState.phone}
-                    onChange={handleInputChange}
-                    placeholder="Phone*"
-                    className="w-full px-4 py-3.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors"
-                  />
-
-                  <input
                     type="email"
                     name="email"
                     required
@@ -831,27 +807,21 @@ export default function ContactPage() {
                     className="w-full px-4 py-3.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors"
                   />
 
-                  <select
-                    name="subject"
-                    required
-                    value={formState.subject}
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formState.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3.5 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors appearance-none cursor-pointer"
-                  >
-                    <option value="" className="bg-[#161616]">Subject*</option>
-                    {subjectOptions.map((option) => (
-                      <option key={option} value={option} className="bg-[#161616]">
-                        {option}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="Phone (optional)"
+                    className="w-full px-4 py-3.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors"
+                  />
 
                   <textarea
                     name="message"
                     rows={4}
                     value={formState.message}
                     onChange={handleInputChange}
-                    placeholder="Message"
+                    placeholder="Message (optional)"
                     className="w-full px-4 py-3.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors resize-none"
                   />
 
