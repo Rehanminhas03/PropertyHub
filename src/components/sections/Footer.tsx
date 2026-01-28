@@ -77,7 +77,6 @@ export default function Footer() {
               </a>
             </motion.div>
 
-            {/* Address - Commented out
             <motion.div
               className="mt-5 flex items-start gap-3 text-base text-white/50 font-medium"
               initial={{ opacity: 0, y: 50 }}
@@ -93,7 +92,6 @@ export default function Footer() {
                 {siteConfig.address?.city}, {siteConfig.address?.state} {siteConfig.address?.zip}
               </span>
             </motion.div>
-            */}
 
             {/* Business Hours */}
             <motion.div
