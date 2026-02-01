@@ -65,6 +65,14 @@ const sections = [
     ]
   },
   {
+    title: "SMS Communications",
+    content: "We collect mobile phone numbers only when voluntarily submitted by users. Phone numbers are used solely for service-related communications including lead notifications, onboarding updates, account alerts, and support messages. SMS consent is not shared with third parties or affiliates. Users may opt out at any time by replying STOP.",
+    paragraphs: [
+      "Mobile information will not be shared with third parties or affiliates for marketing or promotional purposes.",
+      "By submitting your phone number and opting in, you consent to receive SMS messages from Marketlyn. Consent is not a condition of purchase."
+    ]
+  },
+  {
     title: "International Data Processing",
     content: "We serve clients globally. Data may be processed and stored in the United States, Canada, or other jurisdictions where our service providers operate. By using our services, you consent to this processing."
   },
@@ -78,7 +86,7 @@ const sections = [
     list: [
       "You may opt out of marketing communications at any time.",
       "You may request a copy of the data we hold about you.",
-      "Requests can be sent to info@marketlyn.com."
+      "Requests can be sent to support@marketlyn.com."
     ]
   },
   {
@@ -198,10 +206,10 @@ export default function PrivacyPage() {
                 <p className="text-white">
                   <span className="text-white/50">Email: </span>
                   <a
-                    href="mailto:info@marketlyn.com"
+                    href="mailto:support@marketlyn.com"
                     className="text-[#d5b367] hover:underline"
                   >
-                    info@marketlyn.com
+                    support@marketlyn.com
                   </a>
                 </p>
               </div>

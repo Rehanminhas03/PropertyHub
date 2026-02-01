@@ -115,8 +115,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <span className="block">Marketing</span>
-              <span className="block">Without The</span>
+              <span className="block">Marketing </span>
+              <span className="block">Without The </span>
               <span className="block bg-gradient-to-r from-[#d5b367] via-[#e8d5a3] to-[#d5b367] bg-clip-text text-transparent">
                 Hassle.
               </span>

@@ -64,32 +64,44 @@ const termsContent = [
       "We comply with applicable data protection laws, including GDPR and CCPA where applicable. We use vetted third-party providers to deliver our services.",
   },
   {
-    title: "9. Third-Party Services and Payment Processors",
+    title: "9. SMS Terms",
+    content:
+      "Marketlyn may send SMS messages related to service updates, lead notifications, onboarding communication, and account support.",
+    list: [
+      "Message frequency varies.",
+      "Message and data rates may apply.",
+      "Wireless carriers are not responsible for delayed, failed, or undelivered messages.",
+      "To opt out, reply STOP to any message.",
+      "For assistance, reply HELP or contact support@marketlyn.com.",
+    ],
+  },
+  {
+    title: "10. Third-Party Services and Payment Processors",
     content:
       "Our services rely on third-party platforms. We are not responsible for service interruptions, fund holds, or account actions taken by payment processors.",
   },
   {
-    title: "10. No Guarantees",
+    title: "11. No Guarantees",
     content:
       "We do not guarantee financial performance, income, or business success.",
   },
   {
-    title: "11. Termination",
+    title: "12. Termination",
     content:
       "We may suspend or terminate your account immediately for violations of these Terms or conduct posing compliance or financial risk.",
   },
   {
-    title: "12. Governing Law",
+    title: "13. Governing Law",
     content:
       "These Terms are governed by the laws of the State of Colorado, United States.",
   },
   {
-    title: "13. Modifications",
+    title: "14. Modifications",
     content:
       "We may update these Terms with 30 days' notice. Continued use of services constitutes acceptance.",
   },
   {
-    title: "14. Contact and Support",
+    title: "15. Contact and Support",
     content:
       "Support inquiries are addressed within five (5) business days. For questions regarding these Terms, please contact us at support@marketlyn.com.",
   },

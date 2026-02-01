@@ -717,6 +717,13 @@ export default function ContactPage() {
                           </label>
                         </div>
 
+                        {/* Compliance Disclosures */}
+                        <div className="space-y-1 pt-2">
+                          <p className="text-[10px] text-white/40 leading-relaxed">Message frequency varies based on activity and engagement.</p>
+                          <p className="text-[10px] text-white/40 leading-relaxed">You can opt out at any time by replying STOP to any message.</p>
+                          <p className="text-[10px] text-white/40 leading-relaxed">Message and data rates may apply based on your carrier plan.</p>
+                        </div>
+
                         <button
                           type="submit"
                           disabled={isBookingSubmitting || !bookingForm.agreeTerms}
@@ -883,6 +890,13 @@ export default function ContactPage() {
                         I agree to the <Link href="/terms" className="text-[#d5b367] hover:underline">Terms and Conditions</Link>, <Link href="/refund" className="text-[#d5b367] hover:underline">Refund Policy</Link>, and <Link href="/privacy" className="text-[#d5b367] hover:underline">Privacy Policy</Link>.*
                       </span>
                     </label>
+                  </div>
+
+                  {/* Compliance Disclosures */}
+                  <div className="space-y-1 pt-2">
+                    <p className="text-xs text-white/40 leading-relaxed">Message frequency varies based on activity and engagement.</p>
+                    <p className="text-xs text-white/40 leading-relaxed">You can opt out at any time by replying STOP to any message.</p>
+                    <p className="text-xs text-white/40 leading-relaxed">Message and data rates may apply based on your carrier plan.</p>
                   </div>
 
                   <button
