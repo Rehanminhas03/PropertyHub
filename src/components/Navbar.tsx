@@ -23,6 +23,7 @@ const navItems = [
   { name: "Services", link: "/#services" },
   { name: "CRM", link: "/#crm" },
   { name: "FAQ", link: "/#faq" },
+  { name: "Contact", link: "/contact" },
 ];
 
 const portalItems = [
