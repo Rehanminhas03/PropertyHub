@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import connectToDatabase from "@/lib/mongodb";
-import Onboarding from "@/models/Onboarding";
 import { appendToGoogleSheet } from "@/lib/googleSheets";
 
 // Plan labels for display
@@ -73,38 +71,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 1. Save to MongoDB (if configured)
-    let savedToDb = false;
-    try {
-      await connectToDatabase();
-      const onboarding = new Onboarding({
-        firstName,
-        lastName,
-        email,
-        phone,
-        mls,
-        licenseNumber,
-        city,
-        state,
-        primaryArea,
-        primaryRadius,
-        secondaryArea,
-        secondaryRadius,
-        accountManager: accountManager || "",
-        selectedPlan,
-        billingAddress,
-        shippingAddress,
-        status: "pending",
-      });
-      await onboarding.save();
-      savedToDb = true;
-      console.log("Saved to MongoDB successfully");
-    } catch (dbError) {
-      console.error("MongoDB error (continuing anyway):", dbError);
-      // Continue even if DB fails - we'll still send emails
-    }
-
-    // 2. Append to Google Sheet (if configured)
+    // 1. Append to Google Sheet (if configured)
     const savedToSheet = await appendToGoogleSheet({
       firstName,
       lastName,
@@ -124,7 +91,7 @@ export async function POST(request: NextRequest) {
       shippingAddress,
     });
 
-    // 3. Send confirmation emails
+    // 2. Send confirmation emails
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -229,9 +196,7 @@ export async function POST(request: NextRequest) {
             <!-- Status -->
             <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
               <p style="margin: 0; color: #666; font-size: 14px;">
-                <strong>Database:</strong> ${savedToDb ? "✅ Saved" : "❌ Not saved (check MongoDB config)"}
-                <br>
-                <strong>Google Sheet:</strong> ${savedToSheet ? "✅ Added" : "❌ Not added (check Sheets config)"}
+                <strong>Google Sheet:</strong> ${savedToSheet ? "✅ Added" : "⚠️ Not configured (email notification only)"}
               </p>
             </div>
 
@@ -310,7 +275,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: "Onboarding submitted successfully",
-        savedToDb,
         savedToSheet,
       },
       { status: 200 }
@@ -325,17 +289,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET endpoint to retrieve all submissions (for admin use)
+// GET endpoint - returns message since MongoDB is not configured
 export async function GET() {
-  try {
-    await connectToDatabase();
-    const submissions = await Onboarding.find({}).sort({ createdAt: -1 });
-    return NextResponse.json({ submissions }, { status: 200 });
-  } catch (error) {
-    console.error("Error fetching submissions:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch submissions" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    {
+      message: "Database not configured. Submissions are sent via email and Google Sheets only.",
+      submissions: []
+    },
+    { status: 200 }
+  );
 }

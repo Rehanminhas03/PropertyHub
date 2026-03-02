@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import NavbarDemo from "@/components/Navbar";
 import ScrollProgress from "@/components/ui/scroll-progress";
@@ -61,9 +61,35 @@ const formSections = [
   { id: 5, title: "Addresses", icon: IconBuilding },
 ];
 
-export default function OnboardingPage() {
+// Wrapper component to handle useSearchParams
+function OnboardingContent() {
   const searchParams = useSearchParams();
   const planParam = searchParams.get("plan");
+
+  return <OnboardingForm initialPlan={planParam} />;
+}
+
+// Main export with Suspense wrapper
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={<OnboardingLoading />}>
+      <OnboardingContent />
+    </Suspense>
+  );
+}
+
+// Loading component
+function OnboardingLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] via-[#0f0f0f] to-[#161616] flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[#d5b367] border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
+
+// Form component
+function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
+  const planParam = initialPlan;
 
   // Form state
   const [formData, setFormData] = useState({
