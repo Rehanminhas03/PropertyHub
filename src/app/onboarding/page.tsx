@@ -61,6 +61,85 @@ const formSections = [
   { id: 5, title: "Addresses", icon: IconBuilding },
 ];
 
+// Input field component - MUST be outside the form component to prevent focus loss
+const InputField = ({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  required = true,
+  icon: Icon,
+  value,
+  onChange,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  placeholder: string;
+  required?: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-medium text-white/70">{label}{required && "*"}</label>
+    <div className="relative">
+      {Icon && (
+        <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+      )}
+      <input
+        type={type}
+        name={name}
+        required={required}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors ${Icon ? 'pl-10' : ''}`}
+      />
+    </div>
+  </div>
+);
+
+// Select field component - MUST be outside the form component to prevent focus loss
+const SelectField = ({
+  name,
+  label,
+  options,
+  placeholder,
+  required = true,
+  value,
+  onChange,
+}: {
+  name: string;
+  label: string;
+  options: { value: string; label: string }[];
+  placeholder: string;
+  required?: boolean;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-medium text-white/70">{label}{required && "*"}</label>
+    <div className="relative">
+      <select
+        name={name}
+        required={required}
+        value={value}
+        onChange={onChange}
+        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors appearance-none cursor-pointer"
+      >
+        <option value="" className="bg-[#161616]">{placeholder}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value} className="bg-[#161616]">
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <IconChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
+    </div>
+  </div>
+);
+
 // Wrapper component to handle useSearchParams
 function OnboardingContent() {
   const searchParams = useSearchParams();
@@ -164,77 +243,6 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
       setIsSubmitting(false);
     }
   };
-
-  // Input field component for consistency
-  const InputField = ({
-    name,
-    label,
-    type = "text",
-    placeholder,
-    required = true,
-    icon: Icon,
-  }: {
-    name: string;
-    label: string;
-    type?: string;
-    placeholder: string;
-    required?: boolean;
-    icon?: React.ComponentType<{ className?: string }>;
-  }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-medium text-white/70">{label}{required && "*"}</label>
-      <div className="relative">
-        {Icon && (
-          <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-        )}
-        <input
-          type={type}
-          name={name}
-          required={required}
-          value={formData[name as keyof typeof formData]}
-          onChange={handleInputChange}
-          placeholder={placeholder}
-          className={`w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors ${Icon ? 'pl-10' : ''}`}
-        />
-      </div>
-    </div>
-  );
-
-  // Select field component
-  const SelectField = ({
-    name,
-    label,
-    options,
-    placeholder,
-    required = true,
-  }: {
-    name: string;
-    label: string;
-    options: { value: string; label: string }[];
-    placeholder: string;
-    required?: boolean;
-  }) => (
-    <div className="space-y-1.5">
-      <label className="text-sm font-medium text-white/70">{label}{required && "*"}</label>
-      <div className="relative">
-        <select
-          name={name}
-          required={required}
-          value={formData[name as keyof typeof formData]}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:outline-none focus:border-[#d5b367] focus:ring-1 focus:ring-[#d5b367] transition-colors appearance-none cursor-pointer"
-        >
-          <option value="" className="bg-[#161616]">{placeholder}</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value} className="bg-[#161616]">
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <IconChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" />
-      </div>
-    </div>
-  );
 
   if (isSubmitted) {
     return (
@@ -376,12 +384,16 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                     label="First Name"
                     placeholder="John"
                     icon={IconUser}
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                   />
                   <InputField
                     name="lastName"
                     label="Last Name"
                     placeholder="Doe"
                     icon={IconUser}
+                    value={formData.lastName}
+                    onChange={handleInputChange}
                   />
                   <InputField
                     name="email"
@@ -389,6 +401,8 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                     type="email"
                     placeholder="john@example.com"
                     icon={IconMail}
+                    value={formData.email}
+                    onChange={handleInputChange}
                   />
                   <InputField
                     name="phone"
@@ -396,18 +410,24 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                     type="tel"
                     placeholder="+1 (555) 123-4567"
                     icon={IconPhone}
+                    value={formData.phone}
+                    onChange={handleInputChange}
                   />
                   <InputField
                     name="mls"
                     label="MLS"
                     placeholder="Enter your MLS"
                     icon={IconId}
+                    value={formData.mls}
+                    onChange={handleInputChange}
                   />
                   <InputField
                     name="licenseNumber"
                     label="License Number"
                     placeholder="Enter license number"
                     icon={IconLicense}
+                    value={formData.licenseNumber}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -427,12 +447,16 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                     label="City"
                     placeholder="Enter your city"
                     icon={IconMapPin}
+                    value={formData.city}
+                    onChange={handleInputChange}
                   />
                   <SelectField
                     name="state"
                     label="State"
                     options={usStates.map(s => ({ value: s, label: s }))}
                     placeholder="Select state"
+                    value={formData.state}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -455,12 +479,16 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                         name="primaryArea"
                         label="Area Name"
                         placeholder="e.g., Downtown Los Angeles"
+                        value={formData.primaryArea}
+                        onChange={handleInputChange}
                       />
                       <SelectField
                         name="primaryRadius"
                         label="Servicing Radius"
                         options={radiusOptions}
                         placeholder="Select radius"
+                        value={formData.primaryRadius}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
@@ -473,12 +501,16 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                         name="secondaryArea"
                         label="Area Name"
                         placeholder="e.g., Beverly Hills"
+                        value={formData.secondaryArea}
+                        onChange={handleInputChange}
                       />
                       <SelectField
                         name="secondaryRadius"
                         label="Servicing Radius"
                         options={radiusOptions}
                         placeholder="Select radius"
+                        value={formData.secondaryRadius}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
@@ -500,12 +532,16 @@ function OnboardingForm({ initialPlan }: { initialPlan: string | null }) {
                     label="Account Manager"
                     placeholder="Assigned account manager"
                     required={false}
+                    value={formData.accountManager}
+                    onChange={handleInputChange}
                   />
                   <SelectField
                     name="selectedPlan"
                     label="Select Plan"
                     options={planOptions}
                     placeholder="Choose your plan"
+                    value={formData.selectedPlan}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>

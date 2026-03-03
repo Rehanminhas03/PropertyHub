@@ -150,8 +150,8 @@ const comparisonRows = [
 // CRM Add-on pricing
 const crmAddon = {
   name: "CRM Add-on",
-  originalPrice: "$297",
-  discountedPrice: "$197",
+  originalPrice: "$197",
+  discountedPrice: "$99",
   period: "/one-time",
   description: "Full GoHighLevel CRM access",
   features: [

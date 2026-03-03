@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     // Email to admin
     const mailOptionsToAdmin = {
       from: process.env.EMAIL_USER,
-      to: "minhasrehan96@gmail.com",
+      to: "support@marketlyn.com",
       subject: `New Onboarding Submission: ${firstName} ${lastName} - ${planDisplay}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
