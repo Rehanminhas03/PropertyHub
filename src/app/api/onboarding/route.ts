@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Append to Google Sheet (if configured)
-    const savedToSheet = await appendToGoogleSheet({
+    const sheetResult = await appendToGoogleSheet({
       firstName,
       lastName,
       email,
@@ -90,10 +90,13 @@ export async function POST(request: NextRequest) {
       billingAddress,
       shippingAddress,
     });
+    const savedToSheet = sheetResult.success;
 
     // 2. Send confirmation emails
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.zoho.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -196,7 +199,7 @@ export async function POST(request: NextRequest) {
             <!-- Status -->
             <div style="margin-top: 30px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
               <p style="margin: 0; color: #666; font-size: 14px;">
-                <strong>Google Sheet:</strong> ${savedToSheet ? "✅ Added" : "⚠️ Not configured (email notification only)"}
+                <strong>Google Sheet:</strong> ${savedToSheet ? "✅ Added" : `⚠️ Failed — ${sheetResult.error || "Not configured"}`}
               </p>
             </div>
 
@@ -276,6 +279,7 @@ export async function POST(request: NextRequest) {
       {
         message: "Onboarding submitted successfully",
         savedToSheet,
+        ...(sheetResult.error && { sheetError: sheetResult.error }),
       },
       { status: 200 }
     );

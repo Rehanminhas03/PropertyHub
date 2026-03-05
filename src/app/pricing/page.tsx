@@ -962,7 +962,7 @@ export default function PricingPage() {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-[#d5b367]">CRM Included Free!</p>
-                          <p className="text-xs text-white/50">$297 value included at no extra cost</p>
+                          <p className="text-xs text-white/50">$197 value included at no extra cost</p>
                         </div>
                       </div>
                     </div>
